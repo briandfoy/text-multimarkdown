@@ -1314,9 +1314,9 @@ __END__
 
 =head1 BUGS
 
-To file bug reports or feature requests please send email to:
+Open an issue in the GitHub repo:
 
-    bug-Text-Markdown@rt.cpan.org
+	https://github.com/briandfoy/text-multimarkdown/actions
 
 Please include with your report: (1) the example input; (2) the output
 you expected; (3) the output Markdown actually produced.
@@ -1327,19 +1327,21 @@ See the Changes file for detailed release notes for this version.
 
 =head1 AUTHOR
 
-    John Gruber
-    http://daringfireball.net/
+=over 4
 
-    PHP port and other contributions by Michel Fortin
-    http://michelf.com/
+=item * John Gruber http://daringfireball.net/
 
-    MultiMarkdown changes by Fletcher Penney
-    http://fletcher.freeshell.org/
+=item * PHP port and other contributions by Michel Fortin http://michelf.com/
 
-    CPAN Module Text::MultiMarkdown (based on Text::Markdown by Sebastian
-    Riedel) originally by Darren Kulp (http://kulp.ch/)
+=item * MultiMarkdown changes by Fletcher Penney http://fletcher.freeshell.org/
 
-    This module is maintained by: Tomas Doran http://www.bobtfish.net/
+=item * CPAN Module Text::MultiMarkdown (based on Text::Markdown by Sebastian Riedel) originally by Darren Kulp (http://kulp.ch/)
+
+=item * This module was maintained by: Tomas Doran http://www.bobtfish.net/
+
+=item * This module is currently maintained by brian d foy
+
+=back
 
 =head1 THIS DISTRIBUTION
 
