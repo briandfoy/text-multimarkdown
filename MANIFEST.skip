@@ -78,3 +78,5 @@
 #!end included /usr/local/perls/perl-5.38.0/lib/5.38.0/ExtUtils/MANIFEST.SKIP
 
 Todo
+\.tar\.gz
+Text-MultiMarkdown-.*
