@@ -4,8 +4,8 @@ LICENSE
 Makefile.PL
 MANIFEST
 MANIFEST.SKIP
-README
-Readme.text
+MARKDOWN.md
+README.pod
 script/MultiMarkdown.pl
 t/01use.t
 t/02pod.t
