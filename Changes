@@ -1,5 +1,13 @@
 Revision history for Perl module Text::MultiMarkdown
 
+1.001 2023-08-08T07:16:26Z
+	* brian d foy takes over the module to fix a tar archive that
+	had extra metadata that some tars complained about
+	* the Module::Install stuff is gone, so bobtfish/text-multimarkdown#33
+	is solved
+	* changed shebang of cript/MultiMarkdown.pl so MakeMaker will update
+	it (toddr, bobtfish/text-multimarkdown#34)
+
 1.000035 2014-06-19T16:55:00
       - Add a 'self_url' configuration parameter to the constructor. If set, the
         value is prepended to the "#" anchor of footnotes.
