@@ -112,6 +112,10 @@ Turn off for compatibility with the original markdown.
 Controls if <hX> tags generated have an id attribute. Defaults to true.
 Turn off for compatibility with the original markdown.
 
+=item heading_ids_spaces_to_dash
+
+Controls whether spaces in headings should be rendered as "-" characters in the heading ids (for compatibility with github markdown, and others)
+
 =item bibliography_title
 
 The title of the generated bibliography, defaults to 'Bibliography'.
@@ -232,6 +236,8 @@ sub new {
     $p{bibliography_title} ||= 'Bibliography'; # FIXME - Test and document, can also be in metadata!
 
     $p{self_url} ||= ''; # Used in footnotes to prepend anchors
+
+    $p{heading_ids_spaces_to_dash} ||= '';
 
     my $self = { params => \%p };
     bless $self, ref($class) || $class;
@@ -835,6 +841,7 @@ sub _PrintFootnotes {
 sub _Header2Label {
     my ($self, $header) = @_;
     my $label = lc $header;
+    $label =~ s/ +/-/g if $self->{heading_ids_spaces_to_dash};
     $label =~ s/[^A-Za-z0-9:_.-]//g;        # Strip illegal characters
     while ($label =~ s/^[^A-Za-z]//g)
         {};     # Strip illegal leading characters
