@@ -1314,12 +1314,15 @@ __END__
 
 =head1 BUGS
 
-Open an issue in the GitHub repo:
+I have disabled issues on in the GitHub repo at:
 
-	https://github.com/briandfoy/text-multimarkdown/actions
+	https://github.com/briandfoy/text-multimarkdown
 
-Please include with your report: (1) the example input; (2) the output
-you expected; (3) the output Markdown actually produced.
+So you won't be able to submit a bug report there, rt.cpan.org will point you at:
+
+	https://github.com/bobtfish/text-markdown/issues
+
+... maybe try reporting your issue there? 
 
 =head1 VERSION HISTORY
 
