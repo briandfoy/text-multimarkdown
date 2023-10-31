@@ -20,6 +20,7 @@ t/09base_url.t
 t/10use_metadata.t
 t/11docment_format.t
 t/12empty_element_suffix.t
+t/13heading_ids_spaces_to_dash.t
 t/13multimarkdown-nometadata-firstpara.t
 t/14unicode.t
 t/16headingsinlists.t
@@ -298,6 +299,8 @@ t/Text-MultiMarkdown.mdtest/Footnotes.text
 t/Text-MultiMarkdown.mdtest/Footnotes.xhtml
 t/Text-MultiMarkdown.mdtest/Hard-wrapped_paragraphs_with_list-like_lines.text
 t/Text-MultiMarkdown.mdtest/Hard-wrapped_paragraphs_with_list-like_lines.xhtml
+t/Text-MultiMarkdown.mdtest/Headings.text
+t/Text-MultiMarkdown.mdtest/Headings.xhtml
 t/Text-MultiMarkdown.mdtest/Horizontal_rules.text
 t/Text-MultiMarkdown.mdtest/Horizontal_rules.xhtml
 t/Text-MultiMarkdown.mdtest/HTML-Comment-encoding.text
