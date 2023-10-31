@@ -6,7 +6,7 @@ use re 'eval';
 
 use Digest::MD5    qw(md5_hex);
 use Encode         qw();
-use Carp           qw(croak);
+use Carp           qw(carp croak);
 use base           qw(Text::Markdown);
 use HTML::Entities qw(encode_entities);
 
@@ -184,7 +184,7 @@ A list of 'known' metadata keys, and their effects are listed below:
 
 =over
 
-=item document format
+=item document_format
 
 If set to 'complete', MultiMarkdown will render an entire xHTML page,
 otherwise it will render a document fragment
@@ -221,36 +221,36 @@ A simple constructor, see the SYNTAX and OPTIONS sections for more information.
 
 =cut
 
+my %defaults;
+BEGIN {
+%defaults = (
+	use_metadata               => 1,
+	base_url                   => '',
+	tab_width                  => 4,
+	document_format            => '',
+	empty_element_suffix       => ' />',
+	use_wikilinks              => 0,
+	heading_ids                => 1,
+	img_ids                    => 1,
+	bibliography_title         => 'Bibliography',
+	self_url                   => '',
+	heading_ids_spaces_to_dash => '',
+	);
+
+}
+
 sub new {
-    my ($class, %p) = @_;
+    my ($class, %args) = @_;
 
-    # Default metadata to 1
-    $p{use_metadata} = 1 unless exists $p{use_metadata};
-    # Squash value to [01]
-    $p{use_metadata} = $p{use_metadata} ? 1 : 0;
+	my %p = ( %defaults, %args );
 
-    $p{base_url} ||= ''; # This is the base url to be used for WikiLinks
+	my @binary = qw(use_metadata use_wikilinks);
+	$p{$_} = $p{$_} ? 1 : 0 for @binary;
 
-    $p{tab_width} = 4 unless (defined $p{tab_width} and $p{tab_width} =~ m/^\d+$/);
-
-    $p{document_format} ||= '';
-
-    $p{empty_element_suffix} ||= ' />'; # Change to ">" for HTML output
-
-    #$p{heading_ids} = defined $p{heading_ids} ? $p{heading_ids} : 1;
-
-    # For use with WikiWords and [[Wiki Links]]
-    # NOTE: You can use \WikiWord to prevent a WikiWord from being treated as a link
-    $p{use_wikilinks} = $p{use_wikilinks} ? 1 : 0;
-
-    $p{heading_ids} = defined $p{heading_ids} ? $p{heading_ids} : 1;
-    $p{img_ids}     = defined $p{img_ids}     ? $p{img_ids}     : 1;
-
-    $p{bibliography_title} ||= 'Bibliography'; # FIXME - Test and document, can also be in metadata!
-
-    $p{self_url} ||= ''; # Used in footnotes to prepend anchors
-
-    $p{heading_ids_spaces_to_dash} ||= '';
+	unless( $p{tab_width} =~ m/^\d+$/ ) {
+		carp "tab_width did not look like a decimal number, so using the default 4";
+		$p{tab_width} = 4;
+	}
 
     my $self = { params => \%p };
     bless $self, ref($class) || $class;
