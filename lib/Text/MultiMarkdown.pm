@@ -77,14 +77,17 @@ and borrows from php-markdown, which lives at:
 
     http://michelf.com/projects/php-markdown/extra/
 
-This documentation is going to be moved/copied into this module for clearer reading in a future release..
+This documentation is going to be moved/copied into this module for
+clearer reading in a future release..
 
 =head1 OPTIONS
 
-MultiMarkdown supports a number of options to it's processor which control the behaviour of the output document.
+MultiMarkdown supports a number of options to it's processor which
+control the behaviour of the output document.
 
-These options can be supplied to the constructor, on in a hash with the individual calls to the markdown method.
-See the synopsis for examples of both of the above styles.
+These options can be supplied to the constructor, on in a hash with
+the individual calls to the markdown method. See the synopsis for
+examples of both of the above styles.
 
 The options for the processor are:
 
@@ -96,11 +99,13 @@ Controls the metadata options below.
 
 =item strip_metadata
 
-If true, any metadata in the input document is removed from the output document (note - does not take effect in complete document format).
+If true, any metadata in the input document is removed from the output
+document (note - does not take effect in complete document format).
 
 =item empty element suffix
 
-This option can be used to generate normal HTML output. By default, it is ' />', which is xHTML, change to '>' for normal HTML.
+This option can be used to generate normal HTML output. By default, it
+is ' />', which is xHTML, change to '>' for normal HTML.
 
 =item img_ids
 
@@ -138,8 +143,9 @@ If true, this disables the MultiMarkdown definition list handling.
 
 =back
 
-A number of possible items of metadata can also be supplied as options.
-Note that if the use_metadata is true then the metadata in the document will overwrite the settings on command line.
+A number of possible items of metadata can also be supplied as
+options. Note that if the use_metadata is true then the metadata in
+the document will overwrite the settings on command line.
 
 Metadata options supported are:
 
@@ -157,14 +163,18 @@ Metadata options supported are:
 
 =head1 METADATA
 
-MultiMarkdown supports the concept of 'metadata', which allows you to specify a number of formatting options
-within the document itself. Metadata should be placed in the top few lines of a file, on value per line as colon separated key/value pairs.
-The metadata should be separated from the document with a blank line.
+MultiMarkdown supports the concept of 'metadata', which allows you to
+specify a number of formatting options within the document itself.
+Metadata should be placed in the top few lines of a file, on value per
+line as colon separated key/value pairs. The metadata should be
+separated from the document with a blank line.
 
-Most metadata keys are also supported as options to the constructor, or options
-to the markdown method itself. (Note, as metadata, keys contain space, whereas options the keys are underscore separated.)
+Most metadata keys are also supported as options to the constructor,
+or options to the markdown method itself. (Note, as metadata, keys
+contain space, whereas options the keys are underscore separated.)
 
-You can attach arbitrary metadata to a document, which is output in HTML <META> tags if unknown, see t/11document_format.t for more info.
+You can attach arbitrary metadata to a document, which is output in
+HTML <META> tags if unknown, see t/11document_format.t for more info.
 
 A list of 'known' metadata keys, and their effects are listed below:
 
@@ -172,7 +182,8 @@ A list of 'known' metadata keys, and their effects are listed below:
 
 =item document format
 
-If set to 'complete', MultiMarkdown will render an entire xHTML page, otherwise it will render a document fragment
+If set to 'complete', MultiMarkdown will render an entire xHTML page,
+otherwise it will render a document fragment
 
 =over
 
@@ -188,11 +199,13 @@ Sets the page title, if in 'complete' document format.
 
 =item use wikilinks
 
-If set to '1' or 'on', causes links that are WikiWords to automatically be processed into links.
+If set to '1' or 'on', causes links that are WikiWords to
+automatically be processed into links.
 
 =item base url
 
-This is the base URL for referencing wiki pages. In this is not supplied, all wiki links are relative.
+This is the base URL for referencing wiki pages. In this is not
+supplied, all wiki links are relative.
 
 =back
 
@@ -417,7 +430,7 @@ sub _DoDefinitionLists {
 	}{
 		my $list = $1;
 		my $result = $1;
-		
+
 		$list =~ s{
 			(?:$definition_block)\n*
 		}{
