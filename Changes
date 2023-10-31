@@ -1,5 +1,8 @@
 Revision history for Perl module Text::MultiMarkdown
 
+1.002 2023-10-31T19:46:11Z
+	* new heading_ids_spaces_to_dash feature from Doug Hoyte (#2)
+
 1.001 2023-08-08T07:16:26Z
 	* brian d foy takes over the module to fix a tar archive that
 	had extra metadata that some tars complained about
