@@ -1329,7 +1329,7 @@ __END__
 
 Open an issue in the GitHub repo:
 
-	https://github.com/briandfoy/text-multimarkdown/actions
+	https://github.com/briandfoy/text-multimarkdown/issues
 
 Please include with your report: (1) the example input; (2) the output
 you expected; (3) the output Markdown actually produced.
