@@ -13,6 +13,8 @@ use HTML::Entities qw(encode_entities);
 our $VERSION   = '1.002';
 our @EXPORT_OK = qw(markdown);
 
+=encoding utf8
+
 =head1 NAME
 
 Text::MultiMarkdown - Convert MultiMarkdown syntax to (X)HTML
