@@ -143,6 +143,19 @@ document (note - does not take effect in complete document format).
 
 Controls indent width in the generated markup, defaults to 4
 
+=item transliterate_ids
+
+In markdown label values, change accented and other non-ASCII letter characters
+with L<Text::Iconv>. If that module is not available, this issues a
+warning and does nothing. When C<unicode_ids> is specified, this is
+ignored.
+
+=item unicode_ids
+
+In markdown label values, allow any Unicode letter character along
+with the allowed ASCII symbol characters. This overrules
+C<transliterate_ids>.
+
 =item use_metadata
 
 Controls the metadata options below.
@@ -217,7 +230,11 @@ automatically be processed into links.
 
 =head1 METHODS
 
-=head2 new
+=head1 Class methods
+
+=over 4
+
+=item new
 
 A simple constructor, see the SYNTAX and OPTIONS sections for more information.
 
@@ -254,12 +271,72 @@ sub new {
 		$p{tab_width} = 4;
 	}
 
+	_process_id_handler( \%args, \%p );
+
     my $self = { params => \%p };
     bless $self, ref($class) || $class;
     return $self;
 }
 
-=head2 markdown
+sub _id_handler {
+	$_[0]->{id_handler} // \&_default_id_handler
+}
+
+sub _default_id_handler {
+	my ($label) = @_;
+
+	$label =~ s/[^A-Za-z0-9:_.-]//g;
+	$label =~ s/^[^A-Za-z]//g;
+	$label =~ s/-+/-/g;
+
+	return $label;
+}
+
+sub _transliteration_id_handler {
+	my ($label) = @_;
+	my $converter = Text::Iconv->new('utf-8', 'us-ascii//TRANSLIT');
+	$label = $converter->convert($label);
+	$label =~ s/^[^A-Za-z]//g;
+	$label =~ s/-+/-/g;
+	return $label;
+}
+
+sub _unicode_id_handler {
+	my ($label) = @_;
+	$label =~ s/\W+/-/;
+	return $label;
+}
+
+sub _process_id_handler {
+	my( $args, $p ) = @_;
+
+	$p->{id_handler} = \&_default_id_handler;
+
+	if ( exists $args->{unicode_ids} and exists $args->{transliterate_ids} ) {
+		warn "ignoring transliterate_ids because unicode_ids is present\n";
+		delete $args->{transliterate_ids};
+	}
+
+	if ( exists $args->{unicode_ids} and $args->{unicode_ids} ) {
+		$p->{id_handler} = \&_unicode_id_handler
+	} elsif ( exists $args->{transliterate_ids} and $args->{transliterate_ids} ) {
+		my $rc = eval { require Text::Iconv };
+		if ($rc) {
+			$p->{id_handler} = \&_transliteration_id_handler;
+		} else {
+			warn "transliterate_ids requires Text::Iconv, but could not load that. Using the default handler";
+			$p->{id_handler} = \&_default_id_handler
+		}
+	}
+}
+
+=back
+
+=head2 Instance methods
+
+=over 4
+
+=item markdown
 
 The main function as far as the outside world is concerned. See the SYNOPSIS
 for details on use.
@@ -857,10 +934,8 @@ sub _Header2Label {
     my ($self, $header) = @_;
     my $label = lc $header;
     $label =~ s/ +/-/g if $self->{heading_ids_spaces_to_dash};
-    $label =~ s/[^A-Za-z0-9:_.-]//g;        # Strip illegal characters
-    while ($label =~ s/^[^A-Za-z]//g)
-        {};     # Strip illegal leading characters
-    return $label;
+
+	return $self->_id_handler->($label);
 }
 
 sub _Id2Footnote {
@@ -1332,7 +1407,7 @@ sub _PrintMarkdownBibliography {
 
 1;
 
-__END__
+=back
 
 =head1 BUGS
 
