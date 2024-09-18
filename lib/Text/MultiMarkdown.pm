@@ -9,6 +9,7 @@ use Encode         qw();
 use Carp           qw(carp croak);
 use base           qw(Text::Markdown);
 use HTML::Entities qw(encode_entities);
+use Unicode::Normalize ();
 
 our $VERSION   = '1.002';
 our @EXPORT_OK = qw(markdown);
@@ -146,7 +147,7 @@ Controls indent width in the generated markup, defaults to 4
 =item transliterate_ids
 
 In markdown label values, change accented and other non-ASCII letter characters
-with L<Text::Iconv>. If that module is not available, this issues a
+with L<Text::Unidecode>. If that module is not available, this issues a
 warning and does nothing. When C<unicode_ids> is specified, this is
 ignored.
 
@@ -286,24 +287,42 @@ sub _default_id_handler {
 	my ($label) = @_;
 
 	$label =~ s/[^A-Za-z0-9:_.-]//g;
-	$label =~ s/^[^A-Za-z]//g;
+	$label =~ s/\A[^A-Za-z]+//g;
 	$label =~ s/-+/-/g;
+	$label =~ s/-+\z//g;
 
 	return $label;
 }
 
+use Data::Dumper qw(Dumper);
+
+BEGIN {
 sub _transliteration_id_handler {
 	my ($label) = @_;
-	my $converter = Text::Iconv->new('utf-8', 'us-ascii//TRANSLIT');
-	$label = $converter->convert($label);
-	$label =~ s/^[^A-Za-z]//g;
+
+	use Text::Unidecode;
+	$label = Text::Unidecode::unidecode($label);
+
+	$label =~ s/\s+//g;
+	$label =~ s/\A[^A-Za-z]+//g;
 	$label =~ s/-+/-/g;
+	$label =~ s/-+\z//g;
+
 	return $label;
 }
+
+my $has_unidecode = eval { require Text::Unidecode };
+*_transliteration_id_handler = \&_default_id_handler unless $has_unidecode;
+
 
 sub _unicode_id_handler {
 	my ($label) = @_;
-	$label =~ s/\W+/-/;
+
+	$label =~ s/\s+//g;
+	$label =~ s/\W+/-/g;
+	$label =~ s/\A\P{Letter}+//g;
+	$label =~ s/-+/-/g;
+	$label =~ s/-+\z//g;
 	return $label;
 }
 
@@ -312,20 +331,18 @@ sub _process_id_handler {
 
 	$p->{id_handler} = \&_default_id_handler;
 
-	if ( exists $args->{unicode_ids} and exists $args->{transliterate_ids} ) {
+	if ( exists $args->{unicode_ids} ) {
 		warn "ignoring transliterate_ids because unicode_ids is present\n";
 		delete $args->{transliterate_ids};
-	}
+		}
 
-	if ( exists $args->{unicode_ids} and $args->{unicode_ids} ) {
+	if ( exists $args->{unicode_ids} ) {
 		$p->{id_handler} = \&_unicode_id_handler
-	} elsif ( exists $args->{transliterate_ids} and $args->{transliterate_ids} ) {
-		my $rc = eval { require Text::Iconv };
-		if ($rc) {
-			$p->{id_handler} = \&_transliteration_id_handler;
-		} else {
-			warn "transliterate_ids requires Text::Iconv, but could not load that. Using the default handler";
-			$p->{id_handler} = \&_default_id_handler
+		}
+	elsif ( exists $args->{transliterate_ids} ) {
+		warn "Need Text::Unidecode to transliterate labels, but could not load it\n"
+			unless $has_unidecode;
+		$p->{id_handler} = \&_transliteration_id_handler;
 		}
 	}
 }
