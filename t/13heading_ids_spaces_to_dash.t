@@ -33,7 +33,6 @@ HERE
 	my $got = eval { $m->markdown($input); };
 	my $at = $@;
 
-	diag( "eval failed with: $at" );
 	ok(!$at, "No exception from markdown") or diag( "eval failed with: $at" );
 	is( $got, $expected );
 };
