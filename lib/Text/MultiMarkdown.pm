@@ -105,16 +105,16 @@ document (note - does not take effect in complete document format).
 =item empty element suffix
 
 This option can be used to generate normal HTML output. By default, it
-is ' />', which is xHTML, change to '>' for normal HTML.
+is C<< /> >>, which is xHTML, change to C<< > >> for normal HTML.
 
 =item img_ids
 
-Controls if <img> tags generated have an id attribute. Defaults to true.
+Controls if C<img> tags generated have an id attribute. Defaults to true.
 Turn off for compatibility with the original markdown.
 
 =item heading_ids
 
-Controls if <hX> tags generated have an id attribute. Defaults to true.
+Controls if C<hX> tags generated have an id attribute. Defaults to true.
 Turn off for compatibility with the original markdown.
 
 =item heading_ids_spaces_to_dash
