@@ -249,7 +249,7 @@ sub new {
 	my @binary = qw(use_metadata use_wikilinks);
 	$p{$_} = $p{$_} ? 1 : 0 for @binary;
 
-	unless( $p{tab_width} =~ m/^\d+$/ ) {
+	unless( $p{tab_width} =~ m/^[0-9]+$/ ) {
 		carp "tab_width did not look like a decimal number, so using the default 4";
 		$p{tab_width} = 4;
 	}
