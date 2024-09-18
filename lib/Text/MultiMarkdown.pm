@@ -114,7 +114,7 @@ If true, this disables the MultiMarkdown footnotes handling.
 
 If true, this disables the MultiMarkdown table handling.
 
-=item empty element suffix
+=item empty_element_suffix
 
 This option can be used to generate normal HTML output. By default, it
 is C<< /> >>, which is xHTML, change to C<< > >> for normal HTML.
