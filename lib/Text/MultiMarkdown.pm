@@ -119,7 +119,8 @@ Turn off for compatibility with the original markdown.
 
 =item heading_ids_spaces_to_dash
 
-Controls whether spaces in headings should be rendered as "-" characters in the heading ids (for compatibility with github markdown, and others)
+Controls whether spaces in headings should be rendered as "-" characters
+in the heading ids (for compatibility with GitHub markdown, and others)
 
 =item bibliography_title
 
