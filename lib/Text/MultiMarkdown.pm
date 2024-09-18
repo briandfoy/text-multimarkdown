@@ -91,26 +91,32 @@ examples of both of the above styles.
 
 The options for the processor are:
 
-=over
+=over 4
 
-=item use_metadata
+=item bibliography_title
 
-Controls the metadata options below.
+The title of the generated bibliography, defaults to 'Bibliography'.
 
-=item strip_metadata
+=item disable_bibliography
 
-If true, any metadata in the input document is removed from the output
-document (note - does not take effect in complete document format).
+If true, this disables the MultiMarkdown bibliography/citation handling.
+
+=item disable_definition_lists
+
+If true, this disables the MultiMarkdown definition list handling.
+
+=item disable_footnotes
+
+If true, this disables the MultiMarkdown footnotes handling.
+
+=item disable_tables
+
+If true, this disables the MultiMarkdown table handling.
 
 =item empty element suffix
 
 This option can be used to generate normal HTML output. By default, it
 is C<< /> >>, which is xHTML, change to C<< > >> for normal HTML.
-
-=item img_ids
-
-Controls if C<img> tags generated have an id attribute. Defaults to true.
-Turn off for compatibility with the original markdown.
 
 =item heading_ids
 
@@ -122,29 +128,23 @@ Turn off for compatibility with the original markdown.
 Controls whether spaces in headings should be rendered as "-" characters
 in the heading ids (for compatibility with GitHub markdown, and others)
 
-=item bibliography_title
+=item img_ids
 
-The title of the generated bibliography, defaults to 'Bibliography'.
+Controls if C<img> tags generated have an id attribute. Defaults to true.
+Turn off for compatibility with the original markdown.
+
+=item strip_metadata
+
+If true, any metadata in the input document is removed from the output
+document (note - does not take effect in complete document format).
 
 =item tab_width
 
 Controls indent width in the generated markup, defaults to 4
 
-=item disable_tables
+=item use_metadata
 
-If true, this disables the MultiMarkdown table handling.
-
-=item disable_footnotes
-
-If true, this disables the MultiMarkdown footnotes handling.
-
-=item disable_bibliography
-
-If true, this disables the MultiMarkdown bibliography/citation handling.
-
-=item disable_definition_lists
-
-If true, this disables the MultiMarkdown definition list handling.
+Controls the metadata options below.
 
 =back
 
@@ -154,15 +154,15 @@ the document will overwrite the settings on command line.
 
 Metadata options supported are:
 
-=over
-
-=item document_format
-
-=item use_wikilinks
+=over 4
 
 =item base_url
 
+=item document_format
+
 =item self_url - The document url is prepended to the "#" anchor of footnotes.
+
+=item use_wikilinks
 
 =back
 
@@ -183,14 +183,19 @@ HTML <META> tags if unknown, see t/11document_format.t for more info.
 
 A list of 'known' metadata keys, and their effects are listed below:
 
-=over
+=over 4
 
 =item document_format
 
 If set to 'complete', MultiMarkdown will render an entire xHTML page,
 otherwise it will render a document fragment
 
-=over
+=over 4
+
+=item base url
+
+This is the base URL for referencing wiki pages. In this is not
+supplied, all wiki links are relative.
 
 =item css
 
@@ -206,11 +211,6 @@ Sets the page title, if in 'complete' document format.
 
 If set to '1' or 'on', causes links that are WikiWords to
 automatically be processed into links.
-
-=item base url
-
-This is the base URL for referencing wiki pages. In this is not
-supplied, all wiki links are relative.
 
 =back
 
