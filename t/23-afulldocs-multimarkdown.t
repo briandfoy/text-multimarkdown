@@ -6,13 +6,23 @@ use FindBin qw($Bin);
 use lib qq($Bin/lib);
 use TestUtils;
 
-my $docsdir = "$Bin/MultiMarkdown.mdtest";
-my @files = get_files($docsdir);
+my $class = 'Text::MultiMarkdown';
+my @methods = qw(markdown to_html);
 
-plan tests => scalar(@files) + 1;
+subtest 'sanity' => sub {
+	use_ok($class) or BAIL_OUT( "Could not compile $class: Stopping" );
+	can_ok $class, @methods;
+	};
 
-use_ok('Text::MultiMarkdown');
+subtest 'files' => sub {
+	tidy();
 
-my $m = Text::MultiMarkdown->new();
+	my $docsdir = "$Bin/MultiMarkdown.mdtest";
+	my @files = get_files($docsdir);
 
-run_tests($m, $docsdir, @files);
+	my $m = Text::MultiMarkdown->new();
+
+	run_tests($m, $docsdir, @files);
+	};
+
+done_testing();

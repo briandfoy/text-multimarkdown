@@ -17,13 +17,13 @@ subtest 'sanity' => sub {
 my $docsdir = "$Bin/docs-multimarkdown-todo";
 my @files = get_files($docsdir);
 
-plan tests => scalar(@files) + 1;
+subtest 'files' => sub {
+	my $m = Text::MultiMarkdown->new();
 
-use_ok('Text::MultiMarkdown');
+	{
+		local $TODO = 'These tests are known broken';
+		run_tests($m, $docsdir, @files);
+	};
+	};
 
-my $m = Text::MultiMarkdown->new();
-
-{
-    local $TODO = 'These tests are known broken';
-    run_tests($m, $docsdir, @files);
-};
+done_testing();
