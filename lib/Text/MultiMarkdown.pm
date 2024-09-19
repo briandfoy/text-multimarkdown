@@ -481,7 +481,7 @@ sub markdown {
     return $self->_Markdown($text);
 }
 
-=item * multimarkdown_to_html
+=item multimarkdown_to_html
 
 For the functional interface, you should use this instead of C<markdown>
 because it's a better name. At the moment it's the same as calling
@@ -494,7 +494,7 @@ sub multimarkdown_to_html {
 	markdown(@_);
 }
 
-=item * to_html
+=item to_html
 
 As a class or instance method, you should use this instead of C<markdown>
 because it's a better name. At the moment it's the same as calling
