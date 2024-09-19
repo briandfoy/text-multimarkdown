@@ -1,43 +1,34 @@
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More;
 
-use_ok( 'Text::MultiMarkdown', 'markdown' );
+my $class = 'Text::MultiMarkdown';
+my @methods = qw(markdown to_html);
 
-my @data = <DATA>;
-my $markdown;
-my $expected;
-my $inout = 0;
-foreach my $l (@data) {
-    if ($l =~ /^__END__/) {
-        $inout++;
-        next;
-    }
-    if ($inout) {
-        $expected .= $l;
-        next;
-    }
-    $markdown .= $l;
-} 
+subtest 'sanity' => sub {
+	use_ok($class) or BAIL_OUT( "Could not compile $class: Stopping" );
+	can_ok $class, @methods;
+	};
+
+my $data = do { local $/; <DATA> };
+my( $markdown, $expected_html ) = split /\s+__END__\s+/, $data, 2;
+$expected_html =~ s/%%SP%%/ /g; # line ending space, which some editors will strip
 
 my $m = Text::MultiMarkdown->new;
 my $out = $m->markdown($markdown);
-#$out =~ s/ /&nbsp;/g;
-#$expected =~ s/ /&nbsp;/g;
-is($out, $expected, 'Output matches expected');
 
-if ($out ne $expected) {
-    eval {
-        require Text::Diff;
-    };
+is($out, $expected_html, 'Output matches expected') or do {
+	eval { require Text::Diff };
     if (!$@) {
         print "=" x 80 . "\nDIFFERENCES:\n";
-        print Text::Diff::diff(\$expected => \$out,{ STYLE => "Unified" });
-    }
+        print Text::Diff::diff(\$expected_html => \$out, { STYLE => "Unified" });
+   	 }
     else {
         warn("Install Text::Diff for more helpful failure message! ($@)");
-    }
-}
+    	}
+	};
+
+done_testing();
 
 __DATA__
 # Heading 1
@@ -50,13 +41,13 @@ Other type of heading (level 2)
 And another one (level 1)
 =========================
 
-A paragraph, of *text*. 
+A paragraph, of *text*.
 
   * UL item 1
   * UL item 2
 
 Another paragraph \*Not bold text*.
-  
+
   1. OL, item 1
   2. OL, item 2
 
@@ -89,7 +80,7 @@ Or, we could use <http://wuto-links.com/>. Or shortcut links like this: [Google]
 >> multiple levels.
 
     This is a code block here...
-    
+
 * * *
 
 *****
@@ -118,7 +109,7 @@ __END__
 
 <h1 id="andanotheronelevel1">And another one (level 1)</h1>
 
-<p>A paragraph, of <em>text</em>. </p>
+<p>A paragraph, of <em>text</em>.</p>
 
 <ul>
 <li>UL item 1</li>
@@ -152,10 +143,10 @@ __END__
 
 <blockquote>
   <p>block quoted text</p>
-  
+%%SP%%%%SP%%
   <p>in multiple paragraphs
   and across multiple lines</p>
-  
+%%SP%%%%SP%%
   <blockquote>
     <p>and at
     multiple levels.</p>
