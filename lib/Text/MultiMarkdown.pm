@@ -11,7 +11,7 @@ use base           qw(Text::Markdown);
 use HTML::Entities qw(encode_entities);
 use Unicode::Normalize ();
 
-our $VERSION   = '1.002';
+our $VERSION   = '1.002_01';
 our @EXPORT_OK = qw(markdown);
 
 =encoding utf8
