@@ -154,14 +154,14 @@ Controls indent width in the generated markup, defaults to 4
 
 In markdown label values, change accented and other non-ASCII letter
 characters with L<Text::Unidecode>. If that module is not available,
-this issues a warning and does nothing. When C<unicode_ids> is
-specified, this is ignored.
+this issues a warning and does nothing. When C<unicode_ids> is true,
+this is ignored. The default is false.
 
 =item unicode_ids
 
 In markdown label values, allow any Unicode letter character along
 with the allowed ASCII symbol characters. This overrules
-C<transliterate_ids>.
+C<transliterate_ids> when true. The default is false.
 
 =item use_metadata
 
@@ -299,7 +299,6 @@ sub _transliteration_id_handler {
 my $has_unidecode = eval { require Text::Unidecode };
 *_transliteration_id_handler = \&_default_id_handler unless $has_unidecode;
 
-
 sub _unicode_id_handler {
 	my ($label) = @_;
 
@@ -316,15 +315,15 @@ sub _process_id_handler {
 
 	$p->{id_handler} = \&_default_id_handler;
 
-	if ( exists $args->{unicode_ids} ) {
-		warn "ignoring transliterate_ids because unicode_ids is present\n";
+	if ( exists $args->{unicode_ids} and $args->{unicode_ids} and exists $args->{transliterate_ids} ) {
+		warn "ignoring transliterate_ids because unicode_ids is true\n";
 		delete $args->{transliterate_ids};
 		}
 
-	if ( exists $args->{unicode_ids} ) {
+	if ( $args->{unicode_ids} ) {
 		$p->{id_handler} = \&_unicode_id_handler
 		}
-	elsif ( exists $args->{transliterate_ids} ) {
+	elsif ( $args->{transliterate_ids} ) {
 		warn "Need Text::Unidecode to transliterate labels, but could not load it\n"
 			unless $has_unidecode;
 		$p->{id_handler} = \&_transliteration_id_handler;
