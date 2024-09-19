@@ -3,8 +3,8 @@ use warnings;
 use Test::More;
 use FindBin qw($Bin);
 
-require "$Bin/20-fulldocs-text-multimarkdown.t";
-tidy();
+use lib qq($Bin/lib);
+use TestUtils;
 
 my $docsdir = "$Bin/MultiMarkdown.mdtest";
 my @files = get_files($docsdir);

@@ -3,7 +3,16 @@ use warnings;
 use Test::More;
 use FindBin qw($Bin);
 
-require "$Bin/20-fulldocs-text-multimarkdown.t";
+use lib qq($Bin/lib);
+use TestUtils;
+
+my $class = 'Text::MultiMarkdown';
+my @methods = qw(markdown to_html);
+
+subtest 'sanity' => sub {
+	use_ok($class) or BAIL_OUT( "Could not compile $class: Stopping" );
+	can_ok $class, @methods;
+	};
 
 my $docsdir = "$Bin/docs-multimarkdown-todo";
 my @files = get_files($docsdir);
