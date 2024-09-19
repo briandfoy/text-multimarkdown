@@ -7,10 +7,10 @@ my $instr = q{A trivial block of text};
 my $outstr = q{<p>A trivial block of text</p>};
 
 subtest 'sanity' => sub {
-	use_ok( 'Text::MultiMarkdown', 'markdown' );
+	use_ok( 'Text::MultiMarkdown', qw(markdown multimarkdown_to_html) );
 };
 
-subtest 'function form' => sub {
+subtest 'markdown function form' => sub {
 	lives_ok {
 		$outstr = markdown($instr);
 	} 'Functional markdown works without an exception';
@@ -20,6 +20,19 @@ subtest 'function form' => sub {
 	is(
 		$outstr => '<p>' . $instr . '</p>',
 		'exported markdown function works'
+	);
+};
+
+subtest 'multimarkdown_to_html function form' => sub {
+	lives_ok {
+		$outstr = multimarkdown_to_html($instr);
+	} 'Functional multimarkdown_to_html works without an exception';
+
+	chomp($outstr);
+
+	is(
+		$outstr => '<p>' . $instr . '</p>',
+		'exported multimarkdown_to_html function works'
 	);
 };
 
