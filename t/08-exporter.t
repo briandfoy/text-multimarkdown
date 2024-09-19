@@ -1,26 +1,29 @@
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More;
 use Test::Exception;
-
-use_ok( 'Text::MultiMarkdown', 'markdown' );
 
 my $instr = q{A trivial block of text};
 my $outstr = q{<p>A trivial block of text</p>};
 
-lives_ok {
-    $outstr = markdown($instr);
-} 'Functional markdown works without an exception';
+subtest 'sanity' => sub {
+	use_ok( 'Text::MultiMarkdown', 'markdown' );
+};
 
-chomp($outstr);
+subtest 'function form' => sub {
+	lives_ok {
+		$outstr = markdown($instr);
+	} 'Functional markdown works without an exception';
 
-is(
-    $outstr => '<p>' . $instr . '</p>', 
-    'exported markdown function works'
-);
+	chomp($outstr);
 
-{
-    local $TODO = 'Broken here';
+	is(
+		$outstr => '<p>' . $instr . '</p>',
+		'exported markdown function works'
+	);
+};
+
+subtest 'class method' => sub {
     $outstr = '';
     lives_ok {
         $outstr = Text::MultiMarkdown->markdown($instr);
@@ -28,5 +31,7 @@ is(
 
     chomp($outstr);
 
-    is($outstr, '<p>' . $instr . '</p>', 'Text::MultiMarkdown->markdown() works (as class method)');
+    is($outstr, "<p>$instr</p>", 'Text::MultiMarkdown->markdown() works (as class method)');
 };
+
+done_testing();

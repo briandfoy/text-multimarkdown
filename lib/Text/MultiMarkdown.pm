@@ -11,6 +11,7 @@ use Encode         qw();
 use Carp           qw(carp croak);
 use base           qw(Text::Markdown);
 use HTML::Entities qw(encode_entities);
+use Scalar::Util   qw(blessed);
 use Unicode::Normalize ();
 
 our $VERSION   = '1.002_01';
@@ -282,10 +283,16 @@ sub _default_id_handler {
 }
 
 BEGIN {
+my $has_unidecode = eval { require Text::Unidecode };
+
 sub _transliteration_id_handler {
 	my ($label) = @_;
 
-	use Text::Unidecode;
+	unless ($has_unidecode ) {
+		carp "Need Text::Unidecode to for transliterate_ids, but could not load it. Falling back to default id handler";
+		return _default_id_handler($label);
+	}
+
 	$label = Text::Unidecode::unidecode($label);
 
 	$label =~ s/\s+//g;
@@ -296,7 +303,6 @@ sub _transliteration_id_handler {
 	return $label;
 }
 
-my $has_unidecode = eval { require Text::Unidecode };
 *_transliteration_id_handler = \&_default_id_handler unless $has_unidecode;
 
 sub _unicode_id_handler {
@@ -339,31 +345,90 @@ sub _process_id_handler {
 
 =item markdown
 
-The main function as far as the outside world is concerned. See the SYNOPSIS
-for details on use.
+=cut
+
+=begin comment
+
+=end comment
+
+There are these situations:
+
+	CLASS->markdown( TEXT );
+	CLASS->markdown( TEXT, HASHREF );
+
+	OBJ->markdown( TEXT );
+	OBJ->markdown( TEXT, HASHREF );
+
+	markdown( TEXT );
+	markdown( TEXT, HASHREF );
+
+These are really:
+
+	markdown( CLASS, TEXT )
+	markdown( CLASS, TEXT, HASHREF )
+
+	markdown( OBJ, TEXT )
+	markdown( OBJ, TEXT, HASHREF )
+
+	markdown( TEXT );
+	markdown( TEXT, HASHREF );
+
+Which breaks down to these groups:
+
+	1) markdown( TEXT );
+
+	2.1) markdown( TEXT, HASHREF );
+	2.2) markdown( CLASS, TEXT )
+	2.3) markdown( OBJ, TEXT )
+
+	3.1) markdown( CLASS, TEXT, HASHREF )
+	3.2) markdown( OBJ, TEXT, HASHREF )
+
+In 1), 2.2), and 3.1), we should make a new object and then do our
+thing.
+
+In 3.1), the previous version specifically said that we can't call
+this as a class method.
+
+In 3.2), we need to merge the options in the existing object with
+the new options. This was never a documented feature though.
+
+Part of the tickyness is that interface for Text::Markdown. We need
+to pass the HASHREF to _CleanUpRunData in the SUPER class
 
 =cut
 
+sub _looks_like_class {
+	local $_ = $_[0];
+	m/\A\w+(?:::\w+)+\z/;
+}
+
 sub markdown {
-    my ( $self, $text, $options ) = @_;
+	my( $self, $text, $options ) = do {
+		if ( @_ == 1 and ! ref $_[0] ) { # Case 1
+			( __PACKAGE__->new, $_[0], {} );
+		} elsif ( @_ == 2 and ! _looks_like_class($_[0]) and ref $_[1] eq ref {} ) { # Case 2.1
+			( __PACKAGE__->new( %{ $_[1] } ), $_[0], $_[1] );
+		} elsif ( @_ == 2 and _looks_like_class($_[0]) and ! ref $_[1] ) { # Case 2.2
+			( $_[0]->new, $_[1] );
+		} elsif ( @_ == 2 and blessed($_[0]) and ! ref $_[1] ) { # Case 2.3
+			( $_[0], $_[1], {} );
+		} elsif ( @_ == 3 and _looks_like_class($_[0]) and ! ref $_[1] and ref $_[2] eq ref {} ) { # Case 3.1
+			( $_[0]->new( %{ $_[2]} ), $_[1], $_[2] );
+		} elsif ( @_ == 3 and blessed($_[0]) and ! ref $_[1] and ref $_[2] eq ref {} ) { # Case 3.2
+			my %merged = ( %{ $_[0]->{params} }, %{ $_[2] } );
+			my $new = $_[0]->new( %merged );
+			( $new, $_[1], $_[2] );
+		} else {
+			carp "Unrecognized arguments for markdown()";
+			return;
+		}
+	};
 
-    # Detect functional mode, and create an instance for this run..
-    unless (ref $self) {
-        if ( $self ne __PACKAGE__ ) {
-            my $ob = __PACKAGE__->new();
-                                # $self is text, $text is options
-            return $ob->markdown($self, $text);
-        }
-        else {
-            croak('Calling ' . $self . '->markdown (as a class method) is not supported.');
-        }
-    }
+    $options = {} unless defined $options;
 
-    $options ||= {};
-
-    %$self = (%{ $self->{params} }, %$options, params => $self->{params});
-
-    $self->_CleanUpRunData($options);
+	%$self = (%{ $self->{params} }, %$options, params => $self->{params});
+	$self->_CleanUpRunData($options);
 
     return $self->_Markdown($text);
 }
