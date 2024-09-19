@@ -1,5 +1,3 @@
-package Text::MultiMarkdown;
-
 use open qw(:std :utf8);
 use utf8;
 use strict;
@@ -61,6 +59,88 @@ subtest 'low level' => sub {
 		}
 	};
 
+subtest 'from markdown' => sub {
+	my $method = 'markdown';
+	my %Snippets = get_snippets();
+
+	subtest 'headers-ascii' => sub {
+		my $mm = $class->new();
+		isa_ok $mm, $class;
+		can_ok $mm, $method;
+
+		ok exists  $Snippets{'headers-ascii'}, 'headers snippet exists';
+		my $html = $mm->markdown( $Snippets{'headers-ascii'} );
+		like $html, qr/<h1 id="firstlevelheading">/,   'h1 has right id';
+		like $html, qr/<h2 id="secondlevelheading">/,  'h2 has right id';
+		};
+
+	subtest 'headers-unicode legacy' => sub {
+		my $mm = $class->new();
+		isa_ok $mm, $class;
+		can_ok $mm, $method;
+
+		ok exists  $Snippets{'headers-unicode'}, 'headers snippet exists';
+		my $html = Text::MultiMarkdown::markdown( $Snippets{'headers-unicode'} );
+		like $html, qr/<h1 id="firtlvlheaing">/, 'h1 has right id';
+		like $html, qr/<h2 id="scdevelhedng">/,  'h2 has right id';
+		};
+
+	subtest 'headers-unicode legacy with dashes' => sub {
+		my %options = ( heading_ids_spaces_to_dash => 1 );
+		my $mm = $class->new( %options );
+		isa_ok $mm, $class;
+		can_ok $mm, $method;
+
+		ok exists  $Snippets{'headers-unicode'}, 'headers snippet exists';
+		my $html = $mm->markdown( $Snippets{'headers-unicode'},
+			  );
+		like $html, qr/<h1 id="firt-lvl-heaing">/, 'h1 has right id';
+		like $html, qr/<h2 id="scd-evel-hedng">/,  'h2 has right id';
+		};
+
+	subtest 'headers-unicode transliteration with dashes' => sub {
+		my %options = (
+			heading_ids_spaces_to_dash => 1,
+			transliterate_ids          => 1,
+		);
+		my $mm = $class->new( %options );
+		isa_ok $mm, $class;
+		can_ok $mm, $method;
+
+		ok exists  $Snippets{'headers-unicode'}, 'headers snippet exists';
+		my $html = $mm->markdown( $Snippets{'headers-unicode'},
+			{ heading_ids_spaces_to_dash => 1, transliterate_ids => 1 }  );
+		like $html, qr/<h1 id="first-leval-heading">/,  'h1 has right id';
+		like $html, qr/<h2 id="secoend-level-heading">/, 'h2 has right id';
+		};
+
+	subtest 'headers-unicode unicode with dashes' => sub {
+		my %options = (
+			heading_ids_spaces_to_dash => 1,
+			unicode_ids          => 1,
+		);
+		my $mm = $class->new( %options );
+		isa_ok $mm, $class;
+		can_ok $mm, $method;
+
+		ok exists  $Snippets{'headers-unicode'}, 'headers snippet exists';
+		my $html = $mm->markdown( $Snippets{'headers-unicode'},
+			{ heading_ids_spaces_to_dash => 1, transliterate_ids => 1 }  );
+		like $html, qr/<h1 id="firşt-lévål-heaðing">/,  'h1 has right id';
+		like $html, qr/<h2 id="sęcœñd-łevel-heädıng">/, 'h2 has right id';
+		};
+
+	subtest 'links' => sub {
+		ok exists  $Snippets{links}, 'links snippet exists';
+
+
+		};
+	};
+
+
+
+
+
 =pod
 
 subtest 'through instance' => sub {
@@ -94,18 +174,55 @@ subtest 'through instance' => sub {
 
 =cut
 
+
 sub check_label_low_level {
 	my( $row ) = @_;
 	my( $input, $ascii, $translit, $unicode ) = @$row;
 
 	subtest $input => sub {
-		is _default_id_handler( $input ),         $ascii,    'ASCII label';
-		is _unicode_id_handler( $input ),         $unicode,  'unicode label';
+		is Text::MultiMarkdown::_default_id_handler( $input ),         $ascii,    'ASCII label';
+		is Text::MultiMarkdown::_unicode_id_handler( $input ),         $unicode,  'unicode label';
 		SKIP: {
 			skip "need Text::Unidecode to test transliteration", 1 unless $has_unidecode;
-			is _transliteration_id_handler( $input ), $translit, 'transliteration label';
+			is Text::MultiMarkdown::_transliteration_id_handler( $input ), $translit, 'transliteration label';
 			}
 		};
 }
 
+sub get_snippets {
+	my $data = do { local $/; <DATA> };
+
+	my @splits = split /^@@\h+/m, $data;
+	shift @splits;
+
+	my %Snippets = map {
+		my( $name, $data ) = split m/\h*\R/, $_, 2;
+		$name =~ s/\A\s+|\s+\z//g;
+		$data =~ s/\A\s+|\s+\z//g;
+		( $name, $data );
+		} @splits;
+
+	return %Snippets;
+}
+
 done_testing;
+
+__END__
+@@ headers-ascii
+# First level heading
+
+Some text
+
+## Second level heading
+
+@@ headers-unicode
+
+# Firşt lévål heaðing
+
+Some text
+
+## Sęcœñd łevel heädıng
+
+@@ links
+
+[foo](fee-fie-foo-fum.html)
