@@ -63,117 +63,111 @@ subtest 'from markdown' => sub {
 	my $method = 'markdown';
 	my %Snippets = get_snippets();
 
-	subtest 'headers-ascii' => sub {
-		my $mm = $class->new();
-		isa_ok $mm, $class;
-		can_ok $mm, $method;
+	my @table = (
+		{
+		label        => 'headers-ascii',
+		snippet_name => 'headers-ascii',
+		h1_pattern   => qr/<h1 id="firstlevelheading">/,
+		h2_pattern   => qr/<h2 id="secondlevelheading">/,
+		options      => {},
+		},
 
-		ok exists  $Snippets{'headers-ascii'}, 'headers snippet exists';
-		my $html = $mm->markdown( $Snippets{'headers-ascii'} );
-		like $html, qr/<h1 id="firstlevelheading">/,   'h1 has right id';
-		like $html, qr/<h2 id="secondlevelheading">/,  'h2 has right id';
-		};
+		{
+		label        => 'headers-unicode legacy',
+		snippet_name => 'headers-unicode',
+		h1_pattern   => qr/<h1 id="firtlvlheaing">/,
+		h2_pattern   => qr/<h2 id="scdevelhedng">/,
+		options      => {},
+		},
 
-	subtest 'headers-unicode legacy' => sub {
-		my $mm = $class->new();
-		isa_ok $mm, $class;
-		can_ok $mm, $method;
+		{
+		label        => 'headers-unicode legacy with dashes',
+		snippet_name => 'headers-unicode',
+		h1_pattern   => qr/<h1 id="firt-lvl-heaing">/,
+		h2_pattern   => qr/<h2 id="scd-evel-hedng">/,
+		options      => {
+			heading_ids_spaces_to_dash => 1,
+			},
+		},
 
-		ok exists  $Snippets{'headers-unicode'}, 'headers snippet exists';
-		my $html = Text::MultiMarkdown::markdown( $Snippets{'headers-unicode'} );
-		like $html, qr/<h1 id="firtlvlheaing">/, 'h1 has right id';
-		like $html, qr/<h2 id="scdevelhedng">/,  'h2 has right id';
-		};
+		{
+		label        => 'headers-unicode legacy with dashes',
+		snippet_name => 'headers-unicode',
+		h1_pattern   => qr/<h1 id="firt-lvl-heaing">/,
+		h2_pattern   => qr/<h2 id="scd-evel-hedng">/,
+		options      => {
+			heading_ids_spaces_to_dash => 1,
+			},
+		},
 
-	subtest 'headers-unicode legacy with dashes' => sub {
-		my %options = ( heading_ids_spaces_to_dash => 1 );
-		my $mm = $class->new( %options );
-		isa_ok $mm, $class;
-		can_ok $mm, $method;
-
-		ok exists  $Snippets{'headers-unicode'}, 'headers snippet exists';
-		my $html = $mm->markdown( $Snippets{'headers-unicode'},
-			  );
-		like $html, qr/<h1 id="firt-lvl-heaing">/, 'h1 has right id';
-		like $html, qr/<h2 id="scd-evel-hedng">/,  'h2 has right id';
-		};
-
-	subtest 'headers-unicode transliteration with dashes' => sub {
-		my %options = (
+		{
+		label        => 'headers-unicode transliteration with dashes',
+		snippet_name => 'headers-unicode',
+		h1_pattern   => qr/<h1 id="first-leval-heading">/,
+		h2_pattern   => qr/<h2 id="secoend-level-heading">/,
+		options      => {
 			heading_ids_spaces_to_dash => 1,
 			transliterate_ids          => 1,
-		);
-		my $mm = $class->new( %options );
-		isa_ok $mm, $class;
-		can_ok $mm, $method;
+			},
+		},
 
-		ok exists  $Snippets{'headers-unicode'}, 'headers snippet exists';
-		my $html = $mm->markdown( $Snippets{'headers-unicode'},
-			{ heading_ids_spaces_to_dash => 1, transliterate_ids => 1 }  );
-		like $html, qr/<h1 id="first-leval-heading">/,  'h1 has right id';
-		like $html, qr/<h2 id="secoend-level-heading">/, 'h2 has right id';
-		};
-
-	subtest 'headers-unicode unicode with dashes' => sub {
-		my %options = (
+		{
+		label        => 'headers-unicode unicode transliterate with dashes',
+		snippet_name => 'headers-unicode',
+		h1_pattern   => qr/<h1 id="firşt-lévål-heaðing">/,
+		h2_pattern   => qr/<h2 id="sęcœñd-łevel-heädıng">/,
+		warning_from_new => qr/ignoring transliterate_ids/,
+		options      => {
 			heading_ids_spaces_to_dash => 1,
-			unicode_ids          => 1,
+			transliterate_ids          => 1,
+			unicode_ids                => 1,
+			},
+		},
+
+		{
+		label        => 'headers-unicode unicode with dashes',
+		snippet_name => 'headers-unicode',
+		h1_pattern   => qr/<h1 id="firşt-lévål-heaðing">/,
+		h2_pattern   => qr/<h2 id="sęcœñd-łevel-heädıng">/,
+		options      => {
+			heading_ids_spaces_to_dash => 1,
+			unicode_ids                => 1,
+			},
+		},
+
 		);
-		my $mm = $class->new( %options );
-		isa_ok $mm, $class;
-		can_ok $mm, $method;
-
-		ok exists  $Snippets{'headers-unicode'}, 'headers snippet exists';
-		my $html = $mm->markdown( $Snippets{'headers-unicode'},
-			{ heading_ids_spaces_to_dash => 1, transliterate_ids => 1 }  );
-		like $html, qr/<h1 id="firşt-lévål-heaðing">/,  'h1 has right id';
-		like $html, qr/<h2 id="sęcœñd-łevel-heädıng">/, 'h2 has right id';
-		};
-
-	subtest 'links' => sub {
-		ok exists  $Snippets{links}, 'links snippet exists';
-
-
-		};
-	};
-
-
-
-
-
-=pod
-
-subtest 'through instance' => sub {
-	subtest 'no heading_ids_spaces_to_dash' => sub {
-		my $mm = $class->new(
-
-			);
-
-
-
-	};
-
-	subtest 'heading_ids_spaces_to_dash' => sub {
-
-
-	};
 
 	foreach my $row ( @table ) {
-		my( $input, $ascii, $translit, $unicode ) = @$row;
+		subtest $row->{label} => sub {
+			ok exists $Snippets{ $row->{snippet_name} }, 'headers snippet exists';
+			my $text = $Snippets{ $row->{snippet_name} };
 
-		subtest $input => sub {
-			is _default_id_handler( $input ),         $ascii,    'ASCII label';
-			is _unicode_id_handler( $input ),         $unicode,  'unicode label';
-			SKIP: {
-				skip "need Text::Iconv to test transliteraiont", 1 unless $has_unidecode;
-				is _transliteration_id_handler( $input ), $translit, 'transliteration label';
-				}
+			subtest 'method' => sub {
+				my $mm = do {
+					my $warnings;
+					local $SIG{__WARN__} = sub { $warnings .= join "\n", @_; };
+					my $mm = $class->new( %{ $row->{options} } );
+					if ( $row->{warning_from_new} ) {
+						like $warnings, $row->{warning_from_new}, 'warning from new';
+						}
+					$mm;
+					};
+				isa_ok $mm, $class;
+				can_ok $mm, $method;
+
+				my $html = $mm->markdown( $text );
+				like $html, $row->{h1_pattern}, 'h1 has right id';
+				like $html, $row->{h2_pattern}, 'h2 has right id';
+				};
+
+			subtest 'function' => sub {
+				my $html = Text::MultiMarkdown::markdown( $text, $row->{options} );
+				like $html, $row->{h1_pattern}, 'h1 has right id';
+				like $html, $row->{h2_pattern}, 'h2 has right id';
+				};
 			};
 		}
 	};
-
-=cut
-
 
 sub check_label_low_level {
 	my( $row ) = @_;
@@ -187,7 +181,7 @@ sub check_label_low_level {
 			is Text::MultiMarkdown::_transliteration_id_handler( $input ), $translit, 'transliteration label';
 			}
 		};
-}
+	}
 
 sub get_snippets {
 	my $data = do { local $/; <DATA> };
