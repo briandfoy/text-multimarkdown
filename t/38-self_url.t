@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More;
 
 use_ok( 'Text::MultiMarkdown');
 
@@ -31,3 +31,6 @@ is(
     $m->markdown($instr) => $outstr,
     'Markdown with self_url footnotes'
 );
+
+done_testing();
+

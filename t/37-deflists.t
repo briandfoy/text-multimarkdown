@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More;
 
 use_ok('Text::MultiMarkdown');
 
@@ -10,7 +10,7 @@ my $m = Text::MultiMarkdown->new(
 
 my $instr = <<MARKDOWN;
 Apple
-:   Pomaceous fruit of plants of the genus Malus in 
+:   Pomaceous fruit of plants of the genus Malus in
     the family Rosaceae.
 :   An american computer company.
 
@@ -22,7 +22,7 @@ my $expstr = <<OUTPUT;
 <dl>
 <dt>Apple</dt>
 <dd>
-Pomaceous fruit of plants of the genus Malus in 
+Pomaceous fruit of plants of the genus Malus in
 the family Rosaceae.
 </dd>
 <dd>
@@ -38,3 +38,5 @@ The fruit of an evergreen tree of the genus Citrus.
 OUTPUT
 
 is($m->markdown($instr) => $expstr, 'definition lists');
+
+done_testing();

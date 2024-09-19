@@ -1,7 +1,7 @@
 use utf8;
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More;
 # This also has a test case in the .mdtest directory.
 
 use_ok('Text::MultiMarkdown', 'markdown');
@@ -29,3 +29,5 @@ is( $html1, <<"EOF" );
   <p>ßåř</p>
 </blockquote>
 EOF
+
+done_testing();

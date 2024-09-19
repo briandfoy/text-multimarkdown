@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More;
 
 use_ok('Text::MultiMarkdown');
 
@@ -11,7 +11,7 @@ my $m = Text::MultiMarkdown->new(
 );
 
 my $instr = q{Here is some text containing a footnote.[^somesamplefootnote]
-    
+
 [^somesamplefootnote]: Here is the text of the footnote itself};
 my $expstr = q{<p>Here is some text containing a footnote.[^somesamplefootnote]</p>
 
@@ -21,7 +21,7 @@ my $expstr = q{<p>Here is some text containing a footnote.[^somesamplefootnote]<
 is($m->markdown($instr) => $expstr, 'disable_footnotes works as expected');
 
 $instr = q{This is a borrowed idea[p. 23][#Doe:1996].
-    
+
 [#Doe:1996]:	John Doe. *Some Book*. Blog Books, 1996.
 };
 
@@ -38,3 +38,5 @@ Content       |   Cell    |             Cell |};
 $expstr = '<p>' . $instr . "</p>\n";
 
 is( $m->markdown($instr) => $expstr, 'disable_tables works as expected');
+
+done_testing();

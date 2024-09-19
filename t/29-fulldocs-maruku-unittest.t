@@ -10,8 +10,6 @@ my @files = get_files($docsdir);
 
 tidy();
 
-plan tests => scalar(@files) + 1;
-
 use_ok('Text::MultiMarkdown');
 
 my $m = Text::MultiMarkdown->new(
@@ -23,4 +21,6 @@ my $m = Text::MultiMarkdown->new(
 {
     local $TODO = 'Ruby (maruku) tests, do not pass, but mostly due to spacing - pick them all up and go through them..';
     run_tests($m, $docsdir, @files);
+
+done_testing();
 };

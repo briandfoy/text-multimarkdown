@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More;
 
 use_ok('Text::MultiMarkdown');
 
@@ -28,3 +28,5 @@ my $expstr = <<OUTPUT;
 OUTPUT
 
 is($m->markdown($instr) => $expstr, 'underscores in code in footnotes');
+
+done_testing();

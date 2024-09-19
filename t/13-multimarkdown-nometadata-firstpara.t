@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More;
 
 use_ok( 'Text::MultiMarkdown', 'markdown' );
 
@@ -8,7 +8,7 @@ my $m     = Text::MultiMarkdown->new;
 
 # A line of whitespace should cause metadata to be skipped..
 my $html1 = $m->markdown(<<"EOF");
-    
+
 Simple block on one line:
 
 <div>foo</div>
@@ -19,3 +19,5 @@ is( $html1, <<"EOF" );
 
 <div>foo</div>
 EOF
+
+done_testing();

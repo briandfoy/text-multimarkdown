@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More;
 
 #1
 use_ok( 'Text::MultiMarkdown');
@@ -10,7 +10,7 @@ my $m = Text::MultiMarkdown->new();
 my $outstr = qq{<p>A trivial block of text</p>\n};
 
 is( #2
-    $m->markdown($instr) => $outstr, 
+    $m->markdown($instr) => $outstr,
     'Markdown'
 );
 
@@ -19,7 +19,7 @@ $outstr = qq{<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://ww
 <html>\n\t<head>\n\t</head>\n<body>\n<p>A trivial block of text</p>\n</body>\n</html>};
 
 is( #3
-    $m->markdown($instr, {document_format => 'Complete'}) => $outstr, 
+    $m->markdown($instr, {document_format => 'Complete'}) => $outstr,
     'Markdown with complete xhtml doc'
 );
 
@@ -35,14 +35,16 @@ $outstr = qq{<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://ww
 \t\t<title>A page title</title>\n\t</head>\n<body>\n<p>A trivial block of text</p>\n</body>\n</html>};
 
 is( #4
-    $m->markdown($instr, {document_format => 'complete'}) => $outstr, 
+    $m->markdown($instr, {document_format => 'complete'}) => $outstr,
     'Markdown with complete xhtml doc (and metadata)'
 );
 
 $outstr = qq{css: somestyle.css<br />\nother: some metadata<br />\ntitle: A page title<br />\n
 <p>A trivial block of text</p>\n};
 
-is( #5 
-    $m->markdown($instr) => $outstr, 
+is( #5
+    $m->markdown($instr) => $outstr,
     'Markdown withmetadata, but no complete doc'
 );
+
+done_testing();

@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More;
 
 use_ok('Text::MultiMarkdown', 'markdown');
 
@@ -40,3 +40,5 @@ EOF
 EOF
 
 };
+
+done_testing();

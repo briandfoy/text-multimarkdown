@@ -2,7 +2,7 @@
 # I don't think that this is a bug at all ;)
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More;
 
 use_ok('Text::MultiMarkdown', 'markdown');
 
@@ -42,3 +42,4 @@ is( $html3, <<'EOF' );
 <code>cpanp -i Task::Catalyst</code></p>
 EOF
 
+done_testing();

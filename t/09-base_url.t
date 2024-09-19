@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More;
 
 use_ok( 'Text::MultiMarkdown');
 
@@ -10,7 +10,7 @@ my $m = Text::MultiMarkdown->new(
 );
 my $outstr = qq{<p>A trivial block of text with a <a href="WikiWord">WikiWord</a></p>\n};
 is(
-    $m->markdown($instr) => $outstr, 
+    $m->markdown($instr) => $outstr,
     'Markdown with wiki links, no base url'
 );
 
@@ -20,7 +20,7 @@ $m = Text::MultiMarkdown->new(
 );
 $outstr = qq{<p>A trivial block of text with a <a href="http://www.test.com/WikiWord">WikiWord</a></p>\n};
 is(
-    $m->markdown($instr) => $outstr, 
+    $m->markdown($instr) => $outstr,
     'Markdown with wiki links, with base url in instance'
 );
 
@@ -31,6 +31,8 @@ $m = Text::MultiMarkdown->new(
 $instr = qq{base url: http://www.test.com/\n\n} . $instr;
 $outstr = qq{base url: http://www.test.com/<br />\n\n} . $outstr;
 is(
-    $m->markdown($instr) => $outstr, 
+    $m->markdown($instr) => $outstr,
     'Markdown with wiki links, with base url in metadata'
 );
+
+done_testing();

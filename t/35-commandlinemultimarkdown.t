@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use FindBin qw($Bin);
-use Test::More tests => 2;
+use Test::More;
 use Test::Exception;
 
 my $filename = "$Bin/Text-MultiMarkdown.mdtest/Markdown_Documentation_-_Syntax";
@@ -14,3 +14,5 @@ lives_ok {
 } 'require MultiMarkdown.pl works';
 my $out = main();
 is($out, $expected, 'MultiMarkdown.pl does the right thing with the syntax guide');
+
+done_testing();

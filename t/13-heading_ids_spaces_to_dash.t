@@ -58,5 +58,4 @@ EOF
 	is( $got, $expected );
 };
 
-
 done_testing();
