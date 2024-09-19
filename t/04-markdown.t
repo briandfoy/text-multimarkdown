@@ -1,30 +1,36 @@
 use strict;
 use warnings;
-use Test::More tests => 3;
+use Test::More;
 
-use_ok( 'Text::MultiMarkdown', 'markdown' );
+my $class = 'Text::MultiMarkdown';
+my @methods = qw(markdown to_html);
 
-my $m     = Text::MultiMarkdown->new;
-my $html1 = $m->markdown(<<"EOF");
+subtest 'sanity' => sub {
+	use_ok($class) or BAIL_OUT( "Could not compile $class: Stopping" );
+	can_ok $class, @methods;
+	};
+
+my $markdown = <<'EOF';
 Foo
 
 Bar
 EOF
 
-is( $html1, <<"EOF" );
+my $expected_html = <<'EOF';
 <p>Foo</p>
 
 <p>Bar</p>
 EOF
 
-my $html2 = $m->markdown(<<"EOF");
-Foo
+subtest 'instance' => sub {
+	my $m = $class->new;
+	isa_ok $m, $class;
+	can_ok $m, @methods;
 
-Bar
-EOF
+	foreach my $method ( @methods ) {
+		my $html = $m->$method($markdown);
+		is $html, $expected_html, "$method returns expected HTML";
+		}
+	};
 
-is( $html2, <<"EOF" );
-<p>Foo</p>
-
-<p>Bar</p>
-EOF
+done_testing();
