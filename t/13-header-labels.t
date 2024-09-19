@@ -171,7 +171,7 @@ subtest 'from markdown' => sub {
 				like $html, $row->{h2_pattern}, 'h2 has right id';
 				};
 
-			subtest 'multimardown_to_html function' => sub {
+			subtest 'multimarkdown_to_html function' => sub {
 				my $html = Text::MultiMarkdown::multimarkdown_to_html( $text, $row->{options} );
 				like $html, $row->{h1_pattern}, 'h1 has right id';
 				like $html, $row->{h2_pattern}, 'h2 has right id';
