@@ -1,5 +1,10 @@
 use strict;
 use warnings;
-use Test::More tests => 1;
+use Test::More;
 
-use_ok('Text::MultiMarkdown');
+my $class = 'Text::MultiMarkdown';
+
+use_ok($class)
+	or BAIL_OUT( "Could not compile $class: Stopping" );
+
+done_testing;
