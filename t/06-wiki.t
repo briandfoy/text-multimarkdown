@@ -1,12 +1,12 @@
 use strict;
 use warnings;
-use Test::More tests => 9;
+use Test::More;
 
 use_ok( 'Text::MultiMarkdown', 'markdown' );
 
 my $page = 'WikiWord';
 
-# FIXME - test 
+# FIXME - test
 #   . No wiki links in headers?
 #   . No wiki links in code section
 
@@ -23,17 +23,19 @@ ok($htmlwiki =~ /<a/, 'has a link where expected');
 
 is($m->markdown($page), $nohtmlwiki, 'use wikilinks does not toggle pref');
 
-is($m->markdown($page, { use_wikilinks => 1 }) => $htmlwiki, 
+is($m->markdown($page, { use_wikilinks => 1 }) => $htmlwiki,
     'use_wikilinks pref in ->markdown produces same out as metadata');
 
 is($m->markdown($page, { use_wikilinks => 0 }) => $nohtmlwiki,
     'use_wikilinks = 0 pref in ->markdown produces same out as no metadata');
 
 $m = Text::MultiMarkdown->new(use_wikilinks => 1);
-is($m->markdown($page) => $htmlwiki, 
+is($m->markdown($page) => $htmlwiki,
     'use wikiwords pref in constructor produces same out as metadata');
-is($m->markdown($page, { use_wikilinks => 0 }) => $nohtmlwiki, 
+is($m->markdown($page, { use_wikilinks => 0 }) => $nohtmlwiki,
     'not use wikilinks pref in markdown produces same out as no metadata when instance has wikilinks enabled');
 
 is($m->markdown('\\' . $page) => $nohtmlwiki,
     'Wiki word escaping works as expected');
+
+done_testing();
