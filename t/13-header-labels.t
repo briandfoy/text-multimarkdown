@@ -155,13 +155,24 @@ subtest 'from markdown' => sub {
 				isa_ok $mm, $class;
 				can_ok $mm, $method;
 
-				my $html = $mm->markdown( $text );
+				foreach my $method ( qw(markdown to_html) ) {
+					subtest $method => sub {
+						my $html = $mm->$method( $text );
+						like $html, $row->{h1_pattern}, 'h1 has right id';
+						like $html, $row->{h2_pattern}, 'h2 has right id';
+						};
+					}
+				};
+
+
+			subtest 'markdown function' => sub {
+				my $html = Text::MultiMarkdown::markdown( $text, $row->{options} );
 				like $html, $row->{h1_pattern}, 'h1 has right id';
 				like $html, $row->{h2_pattern}, 'h2 has right id';
 				};
 
-			subtest 'function' => sub {
-				my $html = Text::MultiMarkdown::markdown( $text, $row->{options} );
+			subtest 'multimardown_to_html function' => sub {
+				my $html = Text::MultiMarkdown::multimarkdown_to_html( $text, $row->{options} );
 				like $html, $row->{h1_pattern}, 'h1 has right id';
 				like $html, $row->{h2_pattern}, 'h2 has right id';
 				};

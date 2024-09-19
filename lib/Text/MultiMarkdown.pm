@@ -15,7 +15,7 @@ use Scalar::Util   qw(blessed);
 use Unicode::Normalize ();
 
 our $VERSION   = '1.002_01';
-our @EXPORT_OK = qw(markdown);
+our @EXPORT_OK = qw(markdown multimarkdown_to_html);
 
 =encoding utf8
 
@@ -343,7 +343,55 @@ sub _process_id_handler {
 
 =over 4
 
-=item markdown
+=item markdown( MARKDOWN_TEXT [, HASHREF] )
+
+This is the legacy interface to this module, but it does too much and
+is a poor name. For the function form, use C<multimarkdown_to_html>
+instead. At the moment that's just a wrapper for C<markdown> in the
+functional form. For the object-oriented forms, use C<to_html> instead.
+That's also just a wrapper for this, but will later change to enforce
+object-orientedness (i.e. exclude the functional form).
+
+And now the legacy stuff.
+
+This works as either a class method, instance method, or exportable
+function:
+
+	my $html = Text::MultiMarkdown->markdown( $text );
+
+	my $mm = Text::MultiMarkdown->new;
+	my $html = $mm->markdown($text);
+
+	use Text::MultiMarkdown qw(markdown);
+	my $html = markdown( $text );
+
+Any of these forms take an optional HASH_REF argument for options. These
+are the options for this module or the parent class L<Text::Markdown>:
+
+	my $html = Text::MultiMarkdown->markdown( $text, { ... } );
+
+	my $mm = Text::MultiMarkdown->new;
+	my $html = $mm->markdown($text, { ... });
+
+	use Text::MultiMarkdown qw(markdown);
+	my $html = markdown( $text, { ... } );
+
+To make this work in all these cases, since this was the legacy design,
+various unsavory things have to happen.
+
+When called as a class method, a new object is constructed. We guess
+that it's a class method by looking at the first argument and seeing
+that it looks like a Perl package name. In prior versions this was
+documented to not work, but there was also a TODO test for it to work.
+So, now it works. This might fail if the entire markdown text is exactly
+a valid Perl package name.
+
+If the first argument is a blessed reference, we guess that this is
+an instance method. With the optional HASH_REF argument this constructs
+a new argument with all of the settings of the original object and the
+stuff in HASH_REF. This might fail if you have some weird case where
+you call this as a function but pass as the TEXT argument an object that
+has overloaded stringification .
 
 =cut
 
@@ -431,6 +479,32 @@ sub markdown {
 	$self->_CleanUpRunData($options);
 
     return $self->_Markdown($text);
+}
+
+=item * multimarkdown_to_html
+
+For the functional interface, you should use this instead of C<markdown>
+because it's a better name. At the moment it's the same as calling
+C<markdown>, but eventually this will diverge from the object-oriented
+form C<to_html>, which is also a better name.
+
+=cut
+
+sub multimarkdown_to_html {
+	markdown(@_);
+}
+
+=item * to_html
+
+As a class or instance method, you should use this instead of C<markdown>
+because it's a better name. At the moment it's the same as calling
+C<markdown>, but eventually this will diverge from the functional
+form C<multimarkdown_to_html>, which is also a better name.
+
+=cut
+
+sub to_html {
+	markdown(@_);
 }
 
 sub _CleanUpRunData {
@@ -1509,7 +1583,7 @@ See the Changes file for detailed release notes for this version.
 =head1 THIS DISTRIBUTION
 
 Please note that this distribution is a fork of Fletcher Penny's MultiMarkdown project,
-and it *is not* in any way blessed by him.
+and it I<is not> in any way blessed by him.
 
 Whilst this code aims to be compatible with the original MultiMarkdown (and incorporates
 and passes the MultiMarkdown test suite) whilst fixing a number of bugs in the original -
