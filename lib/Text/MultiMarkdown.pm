@@ -1,5 +1,7 @@
-package Text::MultiMarkdown;
 require 5.008_000;
+use utf8;
+
+package Text::MultiMarkdown;
 use strict;
 use warnings;
 use re 'eval';
@@ -22,21 +24,25 @@ Text::MultiMarkdown - Convert MultiMarkdown syntax to (X)HTML
 
 =head1 SYNOPSIS
 
-    use Text::MultiMarkdown 'markdown';
-    my $html = markdown($text);
+Use it as a function, with or without optional arguments:
 
     use Text::MultiMarkdown 'markdown';
+
+    my $html = markdown($text);
+
     my $html = markdown( $text, {
         empty_element_suffix => '>',
         tab_width => 2,
         use_wikilinks => 1,
     } );
 
+Or in the object-oriented interface:
+
     use Text::MultiMarkdown;
+
     my $m = Text::MultiMarkdown->new;
     my $html = $m->markdown($text);
 
-    use Text::MultiMarkdown;
     my $m = Text::MultiMarkdown->new(
         empty_element_suffix => '>',
         tab_width => 2,
@@ -56,7 +62,7 @@ specifically to serve as a front-end to (X)HTML. You can use span-level
 HTML tags anywhere in a Markdown document, and you can use block level
 HTML tags (C<< <div> >>, C<< <table> >> etc.). Note that by default
 Markdown isn't interpreted in HTML block-level elements, unless you add
-a C<markdown=1"> attribute to the element. See L<Text::Markdown> for
+a C<markdown="1"> attribute to the element. See L<Text::Markdown> for
 details.
 
 This module implements the MultiMarkdown markdown syntax extensions from:
@@ -82,9 +88,9 @@ and borrows from php-markdown, which lives at:
 This documentation is going to be moved/copied into this module for
 clearer reading in a future release..
 
-=head1 OPTIONS
+=head2 Options
 
-MultiMarkdown supports a number of options to it's processor which
+MultiMarkdown supports a number of options to its processor which
 control the behaviour of the output document.
 
 These options can be supplied to the constructor, on in a hash with
@@ -146,10 +152,10 @@ Controls indent width in the generated markup, defaults to 4
 
 =item transliterate_ids
 
-In markdown label values, change accented and other non-ASCII letter characters
-with L<Text::Unidecode>. If that module is not available, this issues a
-warning and does nothing. When C<unicode_ids> is specified, this is
-ignored.
+In markdown label values, change accented and other non-ASCII letter
+characters with L<Text::Unidecode>. If that module is not available,
+this issues a warning and does nothing. When C<unicode_ids> is
+specified, this is ignored.
 
 =item unicode_ids
 
@@ -163,25 +169,7 @@ Controls the metadata options below.
 
 =back
 
-A number of possible items of metadata can also be supplied as
-options. Note that if the use_metadata is true then the metadata in
-the document will overwrite the settings on command line.
-
-Metadata options supported are:
-
-=over 4
-
-=item base_url
-
-=item document_format
-
-=item self_url - The document url is prepended to the "#" anchor of footnotes.
-
-=item use_wikilinks
-
-=back
-
-=head1 METADATA
+=head2 Metadata
 
 MultiMarkdown supports the concept of 'metadata', which allows you to
 specify a number of formatting options within the document itself.
@@ -194,9 +182,10 @@ or options to the markdown method itself. (Note, as metadata, keys
 contain space, whereas options the keys are underscore separated.)
 
 You can attach arbitrary metadata to a document, which is output in
-HTML <META> tags if unknown, see t/11document_format.t for more info.
+HTML C<< <META> >> tags if unknown, see F<t/11-document_format.t> for
+an example.
 
-A list of 'known' metadata keys, and their effects are listed below:
+These are the known metadata keys:
 
 =over 4
 
@@ -229,9 +218,7 @@ automatically be processed into links.
 
 =back
 
-=head1 METHODS
-
-=head1 Class methods
+=head2 Class methods
 
 =over 4
 
@@ -293,8 +280,6 @@ sub _default_id_handler {
 
 	return $label;
 }
-
-use Data::Dumper qw(Dumper);
 
 BEGIN {
 sub _transliteration_id_handler {
