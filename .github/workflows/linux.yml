@@ -83,7 +83,7 @@ jobs:
               run: |
                 env | sort
                 echo ================== START get latest cpan ========
-                cpan CPAN 2>&1 > /dev/null
+                cpan CPAN > /dev/null 2>&1
                 echo ================== END get latest cpan ==========
                 echo DIR env.: ${{ env.DOT_CPAN_DIR }}
                 echo DIR plain: $DOT_CPAN_DIR
@@ -96,12 +96,12 @@ jobs:
                 more `perldoc -m CPAN::MyConfig` || true
                 echo ==================== END perldoc -m =============
                 echo ====== START cpan -J ============================
-                cpan -J
+                cpan -J | tee dash-j.pm
                 echo ====== END cpan -J ==============================
                 echo ====== START Make CPAN::MyConfig ================
-                 perldoc -m CPAN::MyConfig || true
+                perldoc -m CPAN::MyConfig || true
                 more `perldoc -m CPAN::MyConfig` || true
-                cpan -J | grep -v "Loading internal" > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
+                cat dash-j.pm | grep -v "Loading internal" > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 more ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 echo ====== END Make CPAN::MyConfig ==================
                 echo =============== START MyConfig.pm ===============
