@@ -82,6 +82,8 @@ jobs:
 # patches_dir /github/home/.cpan/prefs
             - name: jigger cpan
               run: |
+                echo get latest cpan
+                cpan CPAN
                 echo CPAN config
                 echo dir ${{ env.MY_DIR }}
                 echo Make directories
