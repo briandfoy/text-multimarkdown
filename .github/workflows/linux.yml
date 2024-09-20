@@ -82,15 +82,15 @@ jobs:
 # patches_dir /github/home/.cpan/prefs
             - name: jigger cpan
               run: |
-                env
+                env | sort
                 echo get latest cpan
                 cpan CPAN
-                echo CPAN config
-                echo dir ${{ env.MY_DIR }}
+                echo DIR env.: ${{ env.DOT_CPAN_DIR }}
+                echo DIR plain: $DOT_CPAN_DIR
                 echo Make directories
                 mkdir -p ${{ env.DOT_CPAN_DIR }}/CPAN ${{ env.DOT_CPAN_DIR }}/prefs ${{ env.DOT_CPAN_DIR }}/patches
 
-                ls -l ${{ env.MY_DIR }}/.cpan
+                ls -l ${{ env.DOT_CPAN_DIR }}
                 echo Get config
                 cpan -J > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 perl -I${{ env.DOT_CPAN_DIR }} -MCPAN::MyConfig -MData::Dumper=Dumper -le '$CPAN::Config->{patches_dir} = qq($ENV{HOME}/.cpan/patches); print Data::Dumper->Dump([$CPAN::Config],[CPAN::Config]), qq(\n1;\n__END__\n)' > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm.tmp
