@@ -92,7 +92,7 @@ jobs:
 
                 ls -l ${{ env.DOT_CPAN_DIR }}
                 echo Get config
-                cpan -J > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
+                cpan -J | grep -v "Loading internal" > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 echo =============== MyConfig.pm =====================
                 more ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 perl -I${{ env.DOT_CPAN_DIR }} -MCPAN::MyConfig -MData::Dumper=Dumper -le '$CPAN::Config->{patches_dir} = qq($ENV{HOME}/.cpan/patches); print Data::Dumper->Dump([$CPAN::Config],[CPAN::Config]), qq(\n1;\n__END__\n)' > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm.tmp
