@@ -14,16 +14,17 @@ subtest 'sanity' => sub {
 	can_ok $class, @methods;
 	};
 
-my $docsdir = "$Bin/docs-multimarkdown-todo";
-my @files = get_files($docsdir);
-
 subtest 'files' => sub {
-	my $m = Text::MultiMarkdown->new();
+	my $m = Text::MultiMarkdown->new;
+	isa_ok $m, $class;
 
-	{
+	my $docsdir = "$Bin/docs-multimarkdown-todo";
+	my @files = get_files($docsdir);
+
+	TODO: {
 		local $TODO = 'These tests are known broken';
-		run_tests($m, $docsdir, @files);
-	};
+		subtest 'todo' => sub { local $SIG{__WARN__} = sub { 1 }; run_tests($m, $docsdir, @files) };
+		}
 	};
 
 done_testing();
