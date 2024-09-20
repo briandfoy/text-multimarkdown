@@ -303,7 +303,10 @@ sub _transliteration_id_handler {
 	return $label;
 }
 
+{
+no warnings qw(redefine);
 *_transliteration_id_handler = \&_default_id_handler unless $has_unidecode;
+}
 
 sub _unicode_id_handler {
 	my ($label) = @_;
