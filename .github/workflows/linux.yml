@@ -83,15 +83,18 @@ jobs:
               run: |
                 env | sort
                 echo get latest cpan
-                cpan CPAN
+                cpan CPAN > /dev/null
                 echo DIR env.: ${{ env.DOT_CPAN_DIR }}
                 echo DIR plain: $DOT_CPAN_DIR
                 echo Make directories
                 mkdir -p ${{ env.DOT_CPAN_DIR }}/CPAN ${{ env.DOT_CPAN_DIR }}/prefs ${{ env.DOT_CPAN_DIR }}/patches
                 ls -l ${{ env.DOT_CPAN_DIR }}
                 echo perldoc -m
-                perldoc -m CPAN::MyConfig
+                perldoc -m CPAN::MyConfig || true
+                more `perldoc -m CPAN::MyConfig` || true
                 echo Get config
+                cpan -J
+                echo Make CPAN::MyConfig
                 cpan -J | grep -v "Loading internal" > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 echo =============== MyConfig.pm =====================
                 more ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
