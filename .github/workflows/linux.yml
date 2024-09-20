@@ -81,7 +81,6 @@ jobs:
 # patches_dir /github/home/.cpan/prefs
             - name: jigger cpan
               run: |
-                cpan CPAN
                 echo CPAN config
                 mkdir -p /home/github/.cpan/{patches,prefs,CPAN}
                 mkdir -p /home/github/.cpan/
