@@ -1,15 +1,19 @@
 package TestUtils;
+use warnings;
+use strict;
+
 use Exporter qw(import);
-@EXPORT = qw(difftest get_files run_tests slurp tidy);
+our @EXPORT = qw(difftest get_files run_tests slurp tidy);
 
 use Encode;
+use File::Spec::Functions qw(catfile);
 use List::MoreUtils qw(uniq);
 use Test::More;
 
+our $TIDY = eval { require HTML::Tidy };
+
 BEGIN {
-	eval {
-		require Text::Diff;
-	};
+	eval { require Text::Diff; };
 	if (!$@) {
 		*difftest = sub {
 			my ($got, $expected, $testname) = @_;
@@ -17,11 +21,12 @@ BEGIN {
 			$expected .= "\n";
 			if ($got eq $expected) {
 				pass($testname);
-				return;
+				return 1;
 			}
-			print "=" x 80 . "\nDIFFERENCES: + = processed version from .text, - = template from .html\n";
-			print encode('utf8', Text::Diff::diff(\$expected => \$got, { STYLE => "Unified" }) . "\n");
+			print STDERR "=" x 80 . "\nTest <$testname> DIFFERENCES: + = processed version from .text, - = template from .html\n";
+			print STDERR encode('utf8', Text::Diff::diff(\$expected => \$got, { STYLE => "Unified" }) . "\n");
 			fail($testname);
+			return 0;
 		};
 	}
 	else {
@@ -29,6 +34,7 @@ BEGIN {
 		*difftest = \&Test::More::is;
 	}
 }
+
 sub get_files {
     my ($docsdir) = @_;
     my $DH;
@@ -40,47 +46,44 @@ sub get_files {
 
 sub run_tests {
     my ($m, $docsdir, @files) = @_;
-    foreach my $test (@files) {
-        my ($input, $output);
-        eval {
-            if (-f "$docsdir/$test.html") {
-                $output = slurp("$docsdir/$test.html");
-            }
-            else {
-                $output = slurp("$docsdir/$test.xhtml");
-            }
-            $input  = slurp("$docsdir/$test.text");
-        };
-        $input .= "\n\n";
-        $output .= "\n\n";
-        if ($@) {
-            fail("1 part of test file not found: $@");
-            next;
-        }
-        $output =~ s/\s+\z//; # trim trailing whitespace
-        my $processed = $m->markdown($input);
-        $processed =~ s/\s+\z//; # trim trailing whitespace
 
-        if ($TIDY) {
-            local $SIG{__WARN__} = sub {};
-            my $t = HTML::Tidy->new;
-            $output = $t->clean($output);
-            $processed = $t->clean($processed);
-        }
+    FILE: foreach my $test (@files) {
+    	subtest "file: $test" => sub {
+			my( $expected_output_filename ) =
+				grep { -f }
+				map { catfile $docsdir, "$test.$_" }
+				qw(html xhtml);
+			unless (-e $expected_output_filename) {
+				fail( "Expected output file <$expected_output_filename> does not exist" );
+				return;
+				}
+			my $expected_output = slurp($expected_output_filename);
+			$expected_output =~ s/[\x20\t]+$//gm;
+			$expected_output =~ s/\s+\z//;
 
-        # Un-comment for debugging if you have space diffs you can't see..
-        $output =~ s/ /&nbsp;/g;
-        $output =~ s/\t/&tab;/g;
-        $processed =~ s/ /&nbsp;/g;
-        $processed =~ s/\t/&tab;/g;
+			my( $input_filename ) = catfile $docsdir, "$test.text";
+			ok -e $input_filename, "input file <$input_filename> exists";
+			my $input = slurp($input_filename);
 
-        difftest($processed, $output, "Docs test: $test");
-    }
-}
+			my $html = $m->markdown($input);
+			$html =~ s/[\x20\t]+$//gm;
+			$html =~ s/\s+\z//;
+
+			if ($TIDY) {
+				local $SIG{__WARN__} = sub {};
+				my $t = HTML::Tidy->new;
+				$expected_output = $t->clean($expected_output);
+				$html = $t->clean($html);
+			}
+
+			difftest($html, $expected_output, "Docs test: $test");
+			};
+		}
+	}
 
 sub slurp {
     my ($filename) = @_;
-    open my $file, '<', $filename or die "Couldn't open $filename: $!";
+    open my $file, '<:utf8', $filename or die "Couldn't open $filename: $!";
     local $/ = undef;
     return <$file>;
 }
