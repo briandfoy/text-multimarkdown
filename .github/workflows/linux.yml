@@ -85,7 +85,8 @@ jobs:
                 echo CPAN config
                 echo dir ${{ env.MY_DIR }}
                 echo Make directories
-                mkdir -p ${{ env.MY_DIR }}/.cpan/{patches,prefs,CPAN}
+                mkdir -p ${{ env.MY_DIR }}/.cpan/CPAN ${{ env.MY_DIR }}/.cpan/prefs ${{ env.MY_DIR }}/.cpan/patches
+
                 ls -l ${{ env.MY_DIR }}/.cpan
                 echo Get config
                 cpan -J > ${{ env.MY_DIR }}/.cpan/CPAN/MyConfig.pm
