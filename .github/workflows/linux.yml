@@ -85,9 +85,10 @@ jobs:
                 echo CPAN config
                 echo dir ${{ env.MY_DIR }}
                 echo Make directories
-                mkdir -p ${{ env.MY_DIR }}/.cpan_distro_prefs/{patches,prefs,CPAN}
+                mkdir -p ${{ env.MY_DIR }}/.cpan/{patches,prefs,CPAN}
+                ls -l ${{ env.MY_DIR }}/.cpan
                 echo Get config
-                cpan -J > ${{ env.MY_DIR }}/CPAN/MyConfig.pm
+                cpan -J > ${{ env.MY_DIR }}/.cpan/CPAN/MyConfig.pm
                 perl -I${{ env.MY_DIR }} -MCPAN::MyConfig -MData::Dumper=Dumper -le '$CPAN::Config->{patches_dir} = qq($ENV{HOME}/.cpan/patches); print Data::Dumper->Dump([$CPAN::Config],[CPAN::Config]), qq(\n1;\n__END__\n)' > ${{ env.MY_DIR }}/CPAN/MyConfig.pm.tmp
                 mv ${{ env.MY_DIR }}/CPAN/MyConfig.pm.tmp ${{ env.MY_DIR }}/CPAN/MyConfig.pm
                 echo ==============================================================================
