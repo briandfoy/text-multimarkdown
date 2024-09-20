@@ -82,6 +82,7 @@ jobs:
 # patches_dir /github/home/.cpan/prefs
             - name: jigger cpan
               run: |
+                env
                 echo get latest cpan
                 cpan CPAN
                 echo CPAN config
