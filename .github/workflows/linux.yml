@@ -93,9 +93,12 @@ jobs:
                 perldoc -m CPAN::MyConfig || true
                 more `perldoc -m CPAN::MyConfig` || true
                 echo Get config
+                echo ====== START cpan -J ==================================
                 cpan -J
-                echo Make CPAN::MyConfig
+                echo ====== END cpan -J ==================================
+                echo ====== START Make CPAN::MyConfig ================
                 cpan -J | grep -v "Loading internal" > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
+                echo ====== END Make CPAN::MyConfig ================
                 echo =============== MyConfig.pm =====================
                 more ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 perl -I${{ env.DOT_CPAN_DIR }} -MCPAN::MyConfig -MData::Dumper=Dumper -le '$CPAN::Config->{patches_dir} = qq($ENV{HOME}/.cpan/patches); print Data::Dumper->Dump([$CPAN::Config],[CPAN::Config]), qq(\n1;\n__END__\n)' > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm.tmp
