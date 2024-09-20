@@ -66,7 +66,7 @@ jobs:
             - name: Platform check
               run: |
                 uname -a
-                pwd | perl -n -e 'print qq(DOT_CPAN_DIR=$_/.cpan)' >> $GITHUB_ENV
+                pwd | perl -n -e 'chomp; print qq(DOT_CPAN_DIR=$_/.cpan)' >> $GITHUB_ENV
                 env | sort
                 echo HOME $HOME
             - name: Perl version check
