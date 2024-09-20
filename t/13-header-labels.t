@@ -166,13 +166,23 @@ subtest 'from markdown' => sub {
 
 
 			subtest 'markdown function' => sub {
+				my $warnings;
+				local $SIG{__WARN__} = sub { $warnings .= join "\n", @_; };
 				my $html = Text::MultiMarkdown::markdown( $text, $row->{options} );
+				if ( $row->{warning_from_new} ) {
+					like $warnings, $row->{warning_from_new}, 'warning from new';
+					}
 				like $html, $row->{h1_pattern}, 'h1 has right id';
 				like $html, $row->{h2_pattern}, 'h2 has right id';
 				};
 
 			subtest 'multimarkdown_to_html function' => sub {
+				my $warnings;
+				local $SIG{__WARN__} = sub { $warnings .= join "\n", @_; };
 				my $html = Text::MultiMarkdown::multimarkdown_to_html( $text, $row->{options} );
+				if ( $row->{warning_from_new} ) {
+					like $warnings, $row->{warning_from_new}, 'warning from new';
+					}
 				like $html, $row->{h1_pattern}, 'h1 has right id';
 				like $html, $row->{h2_pattern}, 'h2 has right id';
 				};
