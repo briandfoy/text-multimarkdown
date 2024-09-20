@@ -5,6 +5,7 @@ use warnings;
 use Test::More;
 
 my $has_unidecode = eval { require Text::Unidecode };
+plan skip_all => 'Text::Unidecode required but not loaded' unless $has_unidecode;
 
 my $class = 'Text::MultiMarkdown';
 
