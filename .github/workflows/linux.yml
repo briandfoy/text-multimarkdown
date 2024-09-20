@@ -88,8 +88,9 @@ jobs:
                 echo DIR plain: $DOT_CPAN_DIR
                 echo Make directories
                 mkdir -p ${{ env.DOT_CPAN_DIR }}/CPAN ${{ env.DOT_CPAN_DIR }}/prefs ${{ env.DOT_CPAN_DIR }}/patches
-
                 ls -l ${{ env.DOT_CPAN_DIR }}
+                echo perldoc -m
+                perldoc -m CPAN::MyConfig
                 echo Get config
                 cpan -J | grep -v "Loading internal" > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 echo =============== MyConfig.pm =====================
@@ -98,7 +99,7 @@ jobs:
                 mv ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm.tmp ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 echo ==============================================================================
                 cpan -J
-            - name: fix html-tagset
+            - name: fix html-tagset for v5.8
               run: |
                 curl -L -O https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-3.24.tar.gz
                 tar -xzf HTML-Tagset-3.24.tar.gz
