@@ -64,7 +64,10 @@ jobs:
         steps:
             - uses: actions/checkout@v3
             - name: Platform check
-              run: uname -a
+              run: |
+                uname -a
+                pwd
+                env | sort
             - name: Perl version check
               run: |
                 perl -V
@@ -74,14 +77,13 @@ jobs:
             - name: Setup environment
               run: |
                 echo "PERL_LWP_SSL_VERIFY_HOSTNAME=0" >> $GITHUB_ENV
-# I had some problems with openssl on Ubuntu, so I punted by installing
-# cpanm first, which is easy. I can install IO::Socket::SSL with that,
-# then switch back to cpan. I didn't explore this further, but what you
-# see here hasn't caused problems for me.
-# Need HTTP::Tiny 0.055 or later.
+# prefs_dir /github/home/.cpan/prefs
+# patches_dir /github/home/.cpan/prefs
             - name: jigger cpan
               run: |
                 cpan App::Cpan
+                perl -I$HOME/.cpan -MCPAN::MyConfig -MData::Dumper=Dumper -le '$CPAN::Config->{patches_dir} = qq($ENV{HOME}/.cpan/patches); print Data::Dumper->Dump([$CPAN::Config],[CPAN::Config]), qq(\n1;\n__END__\n)'
+                more /github/home/.cpan/CPAN/MyConfig.pm
                 cpan -J > cpan.json
                 more cpan.json
             - name: fix html-tagset
@@ -89,10 +91,16 @@ jobs:
                 curl -L -O https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-3.24.tar.gz
                 tar -xzf HTML-Tagset-3.24.tar.gz
                 cd HTML-Tagset-3.24
-                perl -pi -e 'next if /^use v5/' Makefile.PL > Makefile.PL
+                perl -n -e 'next if /^use 5/; print' Makefile.PL > Makefile.PL
                 more Makefile.PL
                 cpan .
                 cd ..
+                pwd
+# I had some problems with openssl on Ubuntu, so I punted by installing
+# cpanm first, which is easy. I can install IO::Socket::SSL with that,
+# then switch back to cpan. I didn't explore this further, but what you
+# see here hasn't caused problems for me.
+# Need HTTP::Tiny 0.055 or later.
             - name: Install cpanm and multiple modules
               run: |
                 curl -L https://cpanmin.us | perl - App::cpanminus
