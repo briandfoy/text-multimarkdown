@@ -119,7 +119,7 @@ jobs:
                 tar -xzf HTML-Tagset-3.24.tar.gz
                 cd HTML-Tagset-3.24
                 mv Makefile.PL Makefile.PL.orig
-                perl -n -e 'next if /(^use 5)|(MINIMUM_PERL)/; print' Makefile.PL.orig > Makefile.PL
+                perl -n -e 'next if /(^use 5)|(MIN_PERL)/; print' Makefile.PL.orig > Makefile.PL
                 more Makefile.PL
                 cpan .
                 cd ..
