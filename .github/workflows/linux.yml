@@ -83,7 +83,12 @@ jobs:
             - name: jigger cpan
               run: |
                 echo CPAN config
+                ls /github/home/
+                echo make .cpan
+                mkdir -p github/home/.cpan
+                echo Make directories
                 mkdir -p /github/home/.cpan/{patches,prefs,CPAN}
+                echo Get config
                 cpan -J > /github/home/.cpan/CPAN/MyConfig.pm
                 perl -I$HOME/.cpan -MCPAN::MyConfig -MData::Dumper=Dumper -le '$CPAN::Config->{patches_dir} = qq($ENV{HOME}/.cpan/patches); print Data::Dumper->Dump([$CPAN::Config],[CPAN::Config]), qq(\n1;\n__END__\n)' > /github/home/.cpan/CPAN/MyConfig.pm.tmp
                 mv /github/home/.cpan/CPAN/MyConfig.pm.tmp /github/home/.cpan/CPAN/MyConfig.pm
