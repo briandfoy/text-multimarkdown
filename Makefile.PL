@@ -74,6 +74,7 @@ my %WriteMakefile = (
 		'Encode'          => '0',
 		'HTML::Entities'  => '0',
 		'Text::Markdown'  => '1.0.26',
+		'Text::Unidecode' => '0',
 		},
 
 	'META_MERGE' => {
