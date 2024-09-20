@@ -268,7 +268,7 @@ sub new {
 }
 
 sub _id_handler {
-	$_[0]->{id_handler} // \&_default_id_handler
+	defined $_[0]->{id_handler} ? $_[0]->{id_handler} : \&_default_id_handler
 }
 
 sub _default_id_handler {
