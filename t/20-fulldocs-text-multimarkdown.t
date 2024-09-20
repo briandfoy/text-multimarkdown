@@ -3,30 +3,35 @@ use warnings;
 use Test::More;
 use FindBin qw($Bin);
 
-our $TIDY = 0;
-
 use lib qq($Bin/lib);
 use TestUtils;
 
-my $docsdir = "$Bin/Text-MultiMarkdown.mdtest";
-my @files = get_files($docsdir);
+my $class = 'Text::MultiMarkdown';
+my @methods = qw(markdown to_html);
 
-plan tests => scalar(@files) + 2;
+subtest 'sanity' => sub {
+	use_ok($class, qw(markdown multimarkdown_to_html)) or BAIL_OUT( "Could not compile $class: Stopping" );
+	can_ok $class, @methods;
+	};
 
-use_ok('Text::MultiMarkdown');
+subtest 'files' => sub {
+	my $docs_dir = "$Bin/Text-MultiMarkdown.mdtest";
+	ok -e $docs_dir, "input source directory <$docs_dir> exists";
+	my @files = get_files($docs_dir);
 
-my $m = Text::MultiMarkdown->new(
-	use_metadata  => 1,
-);
-{
+	my $m = $class->new( use_metadata  => 1 );
+	isa_ok $m, $class;
+	can_ok $m, @methods;
+
 	my $has_warned = 0;
 	local $SIG{__WARN__} = sub {
 		$has_warned++;
 		warn(@_);
+		};
+	run_tests($m, $docs_dir, @files);
+
+	is $has_warned, 0, 'No warnings expected';
 	};
-	run_tests($m, $docsdir, @files);
-	is($has_warned, 0, 'No warnings expected');
-};
 
 done_testing();
 
