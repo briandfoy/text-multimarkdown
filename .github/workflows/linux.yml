@@ -66,9 +66,8 @@ jobs:
             - name: Platform check
               run: |
                 uname -a
-                pwd | perl -n -e 'chomp; print qq(DOT_CPAN_DIR=$_/.cpan)' >> $GITHUB_ENV
+                pwd | perl -n -e 'chomp; print qq(DOT_CPAN_DIR=$_/.cpan\nPERL5LIB=$_/.cpan:$ENV{PERL5LIB})' >> $GITHUB_ENV
                 env | sort
-                echo HOME $HOME
             - name: Perl version check
               run: |
                 perl -V
@@ -104,7 +103,8 @@ jobs:
                 curl -L -O https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-3.24.tar.gz
                 tar -xzf HTML-Tagset-3.24.tar.gz
                 cd HTML-Tagset-3.24
-                perl -n -e 'next if /^use 5/; print' Makefile.PL > Makefile.PL
+                mv Makefile.PL Makefile.PL.orig
+                perl -n -e 'next if /^use 5/; print' Makefile.PL.orig > Makefile.PL
                 more Makefile.PL
                 cpan .
                 cd ..
