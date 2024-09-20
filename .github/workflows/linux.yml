@@ -82,27 +82,30 @@ jobs:
             - name: jigger cpan
               run: |
                 env | sort
-                echo get latest cpan
+                echo ================== START get latest cpan
                 cpan CPAN > /dev/null
+                echo ================== END get latest cpan
                 echo DIR env.: ${{ env.DOT_CPAN_DIR }}
                 echo DIR plain: $DOT_CPAN_DIR
-                echo Make directories
+                echo ==================== START Make directories
                 mkdir -p ${{ env.DOT_CPAN_DIR }}/CPAN ${{ env.DOT_CPAN_DIR }}/prefs ${{ env.DOT_CPAN_DIR }}/patches
                 ls -l ${{ env.DOT_CPAN_DIR }}
-                echo perldoc -m
+                echo ==================== END Make directories
+                echo ==================== START perldoc -m
                 perldoc -m CPAN::MyConfig || true
                 more `perldoc -m CPAN::MyConfig` || true
-                echo Get config
+                echo ==================== END perldoc -m
                 echo ====== START cpan -J ==================================
                 cpan -J
                 echo ====== END cpan -J ==================================
                 echo ====== START Make CPAN::MyConfig ================
                 cpan -J | grep -v "Loading internal" > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
+                more ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 echo ====== END Make CPAN::MyConfig ================
                 echo =============== MyConfig.pm =====================
-                more ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 perl -I${{ env.DOT_CPAN_DIR }} -MCPAN::MyConfig -MData::Dumper=Dumper -le '$CPAN::Config->{patches_dir} = qq($ENV{HOME}/.cpan/patches); print Data::Dumper->Dump([$CPAN::Config],[CPAN::Config]), qq(\n1;\n__END__\n)' > ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm.tmp
                 mv ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm.tmp ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
+                more ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 echo ==============================================================================
                 cpan -J
             - name: fix html-tagset for v5.8
