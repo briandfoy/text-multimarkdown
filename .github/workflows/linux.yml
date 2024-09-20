@@ -81,11 +81,12 @@ jobs:
 # patches_dir /github/home/.cpan/prefs
             - name: jigger cpan
               run: |
-                cpan App::Cpan
+                cpan CPAN YAML
+                echo HOME $HOME
+                find /github/home -name "*.pm"
                 perl -I$HOME/.cpan -MCPAN::MyConfig -MData::Dumper=Dumper -le '$CPAN::Config->{patches_dir} = qq($ENV{HOME}/.cpan/patches); print Data::Dumper->Dump([$CPAN::Config],[CPAN::Config]), qq(\n1;\n__END__\n)'
+                ls -lR /github/home/.cpan
                 more /github/home/.cpan/CPAN/MyConfig.pm
-                cpan -J > cpan.json
-                more cpan.json
             - name: fix html-tagset
               run: |
                 curl -L -O https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-3.24.tar.gz
