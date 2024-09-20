@@ -109,14 +109,17 @@ jobs:
                 mv ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm.tmp ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 more ${{ env.DOT_CPAN_DIR }}/CPAN/MyConfig.pm
                 echo =============== END MyConfig.pm =================
+                echo =============== START cpan -j at end =================
                 cpan -J
+                echo =============== END  cpan -j at end =================
             - name: fix html-tagset for v5.8
+              if: env.PERL_VERSION == 'v5.8'
               run: |
                 curl -L -O https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-3.24.tar.gz
                 tar -xzf HTML-Tagset-3.24.tar.gz
                 cd HTML-Tagset-3.24
                 mv Makefile.PL Makefile.PL.orig
-                perl -n -e 'next if /^use 5/; print' Makefile.PL.orig > Makefile.PL
+                perl -n -e 'next if /(^use 5)|(MINIMUM_PERL)/; print' Makefile.PL.orig > Makefile.PL
                 more Makefile.PL
                 cpan .
                 cd ..
