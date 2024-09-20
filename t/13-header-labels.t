@@ -197,11 +197,11 @@ sub check_label_low_level {
 sub get_snippets {
 	my $data = do { local $/; <DATA> };
 
-	my @splits = split /^@@\h+/m, $data;
+	my @splits = split /^@@[\x20\t]+/m, $data;
 	shift @splits;
 
 	my %Snippets = map {
-		my( $name, $data ) = split m/\h*\R/, $_, 2;
+		my( $name, $data ) = split m/[\x20\t]*\n/, $_, 2;
 		$name =~ s/\A\s+|\s+\z//g;
 		$data =~ s/\A\s+|\s+\z//g;
 		( $name, $data );
