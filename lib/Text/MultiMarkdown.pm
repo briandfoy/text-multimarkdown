@@ -151,7 +151,7 @@ document (note - does not take effect in complete document format).
 
 Controls indent width in the generated markup, defaults to 4
 
-=item transliterate_ids
+=item transliterated_ids
 
 In markdown label values, change accented and other non-ASCII letter
 characters with L<Text::Unidecode>. If that module is not available,
@@ -162,7 +162,7 @@ this is ignored. The default is false.
 
 In markdown label values, allow any Unicode letter character along
 with the allowed ASCII symbol characters. This overrules
-C<transliterate_ids> when true. The default is false.
+C<transliterated_ids> when true. The default is false.
 
 =item use_metadata
 
@@ -289,7 +289,7 @@ sub _transliteration_id_handler {
 	my ($label) = @_;
 
 	unless ($has_unidecode ) {
-		carp "Need Text::Unidecode to for transliterate_ids, but could not load it. Falling back to default id handler";
+		carp "Need Text::Unidecode to for transliterated_ids, but could not load it. Falling back to default id handler";
 		return _default_id_handler($label);
 	}
 
@@ -324,15 +324,15 @@ sub _process_id_handler {
 
 	$p->{id_handler} = \&_default_id_handler;
 
-	if ( exists $args->{unicode_ids} and $args->{unicode_ids} and exists $args->{transliterate_ids} ) {
-		warn "ignoring transliterate_ids because unicode_ids is true\n";
-		delete $args->{transliterate_ids};
+	if ( exists $args->{unicode_ids} and $args->{unicode_ids} and exists $args->{transliterated_ids} ) {
+		warn "ignoring transliterated_ids because unicode_ids is true\n";
+		delete $args->{transliterated_ids};
 		}
 
 	if ( $args->{unicode_ids} ) {
 		$p->{id_handler} = \&_unicode_id_handler
 		}
-	elsif ( $args->{transliterate_ids} ) {
+	elsif ( $args->{transliterated_ids} ) {
 		warn "Need Text::Unidecode to transliterate labels, but could not load it\n"
 			unless $has_unidecode;
 		$p->{id_handler} = \&_transliteration_id_handler;

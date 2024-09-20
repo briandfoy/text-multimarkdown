@@ -107,7 +107,7 @@ subtest 'from markdown' => sub {
 		h2_pattern   => qr/<h2 id="secoend-level-heading">/,
 		options      => {
 			heading_ids_spaces_to_dash => 1,
-			transliterate_ids          => 1,
+			transliterated_ids          => 1,
 			},
 		},
 
@@ -116,10 +116,10 @@ subtest 'from markdown' => sub {
 		snippet_name => 'headers-unicode',
 		h1_pattern   => qr/<h1 id="firşt-lévål-heaðing">/,
 		h2_pattern   => qr/<h2 id="sęcœñd-łevel-heädıng">/,
-		warning_from_new => qr/ignoring transliterate_ids/,
+		warning_from_new => qr/ignoring transliterated_ids/,
 		options      => {
 			heading_ids_spaces_to_dash => 1,
-			transliterate_ids          => 1,
+			transliterated_ids          => 1,
 			unicode_ids                => 1,
 			},
 		},
