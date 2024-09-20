@@ -59,22 +59,6 @@ jobs:
                     - ubuntu-22.04
                 perl-version:
                     - '5.8-buster'
-                    - '5.10-buster'
-                    - '5.12-buster'
-                    - '5.14-buster'
-                    - '5.16-buster'
-                    - '5.18-buster'
-                    - '5.20-buster'
-                    - '5.22-buster'
-                    - '5.24-buster'
-                    - '5.26-buster'
-                    - '5.28-buster'
-                    - '5.30-bullseye'
-                    - '5.32-bullseye'
-                    - '5.34-bullseye'
-                    - '5.36-bookworm'
-                    - '5.38-bookworm'
-                    - 'latest'
         container:
             image: perl:${{ matrix.perl-version }}
         steps:
@@ -95,6 +79,20 @@ jobs:
 # then switch back to cpan. I didn't explore this further, but what you
 # see here hasn't caused problems for me.
 # Need HTTP::Tiny 0.055 or later.
+            - name: jigger cpan
+              run: |
+                cpan App::Cpan
+                cpan -J > cpan.json
+                more cpan.json
+            - name: fix html-tagset
+              run: |
+                curl -L -O https://cpan.metacpan.org/authors/id/P/PE/PETDANCE/HTML-Tagset-3.24.tar.gz
+                tar -xzf HTML-Tagset-3.24.tar.gz
+                cd HTML-Tagset-3.24
+                perl -pi -e 'next if /^use v5/' Makefile.PL > Makefile.PL
+                more Makefile.PL
+                cpan .
+                cd ..
             - name: Install cpanm and multiple modules
               run: |
                 curl -L https://cpanmin.us | perl - App::cpanminus
