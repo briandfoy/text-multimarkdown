@@ -1,5 +1,9 @@
 Revision history for Perl module Text::MultiMarkdown
 
+1.002_02 2024-09-21T17:48:52Z
+	* transliterate_ids changes to transliterated_ids
+	* fix some warnings in the tests
+
 1.002_01 2024-09-20T20:34:38Z
 	* Trial to handle transliterated or unicode labels, for GitHub #16
 	* add transliterate_ids and unicode_ids options
