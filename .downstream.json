@@ -1,77 +1,374 @@
 {
-"meta": {
-
-},
-
-"downstream": [
-	{
-	"active": true,
-	"main-module": "Text::Markup",
-	"metacpan": "https://metacpan.org/pod/Text::Markup",
-	"repo": "https://github.com/theory/text-markup/",
-	"do-not-contact": true,
-	"email": null,
-	"primary-maintainer": null
-	},
-
-	{
-	"active": false,
-	"main-module": "MojoMojo",
-	"metacpan": "https://metacpan.org/pod/MojoMojo",
-	"repo": "https://github.com/mojomojo/mojomojo",
-	"do-not-contact": true
-	"email": null
-	"primary-maintainer": null
-	},
-
-	{
-	"active": true,
-	"main-module": "Email::Simple::Markdown",
-	"metacpan": "https://metacpan.org/pod/Email::Simple::Markdown",
-	"repo": "https://github.com/yanick/Email-Simple-Markdown",
-	"do-not-contact": true
-	"email": null
-	"primary-maintainer": null
-	},
-
-	{
-	"active": true,
-	"main-module": "App::unbelievable",
-	"metacpan": "https://metacpan.org/pod/App::unbelievable",
-	"repo": "https://github.com/cxw42/unbelievable",
-	"do-not-contact": true
-	"email": null
-	"primary-maintainer": null
-	},
-
-	{
-	"active": true,
-	"main-module": "HiD",
-	"metacpan": "https://metacpan.org/pod/HiD",
-	"repo": "https://github.com/genehack/HiD",
-	"do-not-contact": true
-	"email": null
-	"primary-maintainer": null
-	},
-
-	{
-	"active": true,
-	"main-module": "Template::Caribou",
-	"metacpan": "https://metacpan.org/pod/Template::Caribou",
-	"repo": "https://github.com/yanick/Template-Caribou",
-	"do-not-contact": true
-	"email": null
-	"primary-maintainer": null
-	},
-
-	{
-	"active": true,
-	"main-module": "",
-	"metacpan": "",
-	"repo": "",
-	"do-not-contact": true
-	"email": null
-	"primary-maintainer": null
-	},
-
-]}
+   "meta" : {},
+   "downstreams" : [
+      {
+         "ignore" : false,
+         "repo" : "https://github.com/theory/text-markup/",
+         "active" : true,
+         "dist" : "Text-Markup",
+         "primary_maintainer" : "DWHEELER",
+         "main_module" : "Text::Markup",
+         "do_not_contact" : true,
+         "email" : null,
+         "metacpan" : "https://metacpan.org/pod/Text::Markup",
+         "do_not_contanct" : false
+      },
+      {
+         "email" : null,
+         "do_not_contact" : true,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/MojoMojo",
+         "repo" : "https://github.com/mojomojo/mojomojo",
+         "ignore" : false,
+         "active" : false,
+         "dist" : "MojoMojo",
+         "primary_maintainer" : "MRAMBERG",
+         "main_module" : "MojoMojo"
+      },
+      {
+         "primary_maintainer" : "YANICK",
+         "dist" : "Email-Simple-Markdown",
+         "main_module" : "Email::Simple::Markdown",
+         "ignore" : false,
+         "repo" : "https://github.com/yanick/Email-Simple-Markdown",
+         "active" : true,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/Email::Simple::Markdown",
+         "email" : null,
+         "do_not_contact" : true
+      },
+      {
+         "ignore" : false,
+         "repo" : "https://github.com/cxw42/unbelievable",
+         "active" : true,
+         "primary_maintainer" : "CXW",
+         "dist" : "App-unbelievable",
+         "main_module" : "App::unbelievable",
+         "email" : null,
+         "do_not_contact" : true,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/App::unbelievable"
+      },
+      {
+         "email" : null,
+         "do_not_contact" : true,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/HiD",
+         "repo" : "https://github.com/genehack/HiD",
+         "ignore" : false,
+         "active" : true,
+         "dist" : "HiD",
+         "primary_maintainer" : "GENEHACK",
+         "main_module" : "HiD"
+      },
+      {
+         "repo" : "https://github.com/yanick/Template-Caribou",
+         "ignore" : false,
+         "active" : true,
+         "primary_maintainer" : "YANICK",
+         "dist" : "Template-Caribou",
+         "main_module" : "Template::Caribou",
+         "do_not_contact" : true,
+         "email" : null,
+         "metacpan" : "https://metacpan.org/pod/Template::Caribou",
+         "do_not_contanct" : false
+      },
+      {
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "email" : null,
+         "main_module" : "Acme::Mom::Yours",
+         "dist" : "Acme-Mom-Yours",
+         "primary_maintainer" : "ADAMK",
+         "active" : true,
+         "ignore" : false,
+         "repo" : null
+      },
+      {
+         "main_module" : "App::Chronicle",
+         "primary_maintainer" : "SKX",
+         "dist" : "App-Chronicle",
+         "active" : true,
+         "ignore" : false,
+         "repo" : null,
+         "metacpan" : "https://metacpan.org/pod/",
+         "do_not_contanct" : false,
+         "email" : null
+      },
+      {
+         "metacpan" : "https://metacpan.org/pod/",
+         "do_not_contanct" : false,
+         "email" : null,
+         "main_module" : "App::Dapper",
+         "primary_maintainer" : "MDB",
+         "dist" : "App-Dapper",
+         "active" : true,
+         "ignore" : false,
+         "repo" : null
+      },
+      {
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "email" : null,
+         "main_module" : "Beagle",
+         "dist" : "Beagle",
+         "primary_maintainer" : "SUNNAVY",
+         "active" : true,
+         "ignore" : false,
+         "repo" : null
+      },
+      {
+         "email" : null,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "active" : true,
+         "repo" : null,
+         "ignore" : false,
+         "main_module" : "Dancer::Template::Caribou",
+         "dist" : "Dancer-Template-Caribou",
+         "primary_maintainer" : "YANICK"
+      },
+      {
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "email" : null,
+         "dist" : "Dancer2-Template-Caribou",
+         "primary_maintainer" : "YANICK",
+         "main_module" : "Dancer2::Template::Caribou",
+         "ignore" : false,
+         "repo" : null,
+         "active" : true
+      },
+      {
+         "metacpan" : "https://metacpan.org/pod/",
+         "do_not_contanct" : false,
+         "email" : null,
+         "main_module" : "Dist::Zilla::Plugin::JSAN",
+         "dist" : "Dist-Zilla-Plugin-JSAN",
+         "primary_maintainer" : "NPLATONOV",
+         "active" : true,
+         "repo" : null,
+         "ignore" : false
+      },
+      {
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "email" : null,
+         "main_module" : "Dist::Zilla::Plugin::Web",
+         "dist" : "Dist-Zilla-Plugin-Web",
+         "primary_maintainer" : "NPLATONOV",
+         "active" : true,
+         "repo" : null,
+         "ignore" : false
+      },
+      {
+         "main_module" : "Doc::Simply",
+         "dist" : "Doc-Simply",
+         "primary_maintainer" : "ROKR",
+         "active" : true,
+         "ignore" : false,
+         "repo" : null,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "email" : null
+      },
+      {
+         "email" : null,
+         "metacpan" : "https://metacpan.org/pod/",
+         "do_not_contanct" : false,
+         "repo" : null,
+         "ignore" : false,
+         "active" : true,
+         "primary_maintainer" : "BYTERAZOR",
+         "dist" : "HiD-Generator-BibtexPage",
+         "main_module" : "HiD::Generator::BibtexPage"
+      },
+      {
+         "email" : null,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "ignore" : false,
+         "repo" : null,
+         "active" : true,
+         "dist" : "HiD-Generator-GitRepositories",
+         "primary_maintainer" : "BYTERAZOR",
+         "main_module" : "HiD::Generator::GitRepositories"
+      },
+      {
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "email" : null,
+         "main_module" : "HiD::Generator::Sass",
+         "dist" : "HiD-Generator-Sass",
+         "primary_maintainer" : "DUCKS",
+         "active" : true,
+         "repo" : null,
+         "ignore" : false
+      },
+      {
+         "email" : null,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "active" : true,
+         "ignore" : false,
+         "repo" : null,
+         "main_module" : "Mira",
+         "dist" : "Mira",
+         "primary_maintainer" : "KIAVASH"
+      },
+      {
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "email" : null,
+         "dist" : "Miril",
+         "primary_maintainer" : "PSHANGOV",
+         "main_module" : "Miril",
+         "repo" : null,
+         "ignore" : false,
+         "active" : true
+      },
+      {
+         "email" : null,
+         "metacpan" : "https://metacpan.org/pod/",
+         "do_not_contanct" : false,
+         "active" : true,
+         "ignore" : false,
+         "repo" : null,
+         "main_module" : "Module::Build::JSAN::Installable",
+         "dist" : "Module-Build-JSAN-Installable",
+         "primary_maintainer" : "NPLATONOV"
+      },
+      {
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "email" : null,
+         "dist" : "Module-JSAN",
+         "primary_maintainer" : "NPLATONOV",
+         "main_module" : "Module::JSAN",
+         "repo" : null,
+         "ignore" : false,
+         "active" : true
+      },
+      {
+         "main_module" : "Mojito",
+         "primary_maintainer" : "MATEU",
+         "dist" : "Mojito",
+         "active" : true,
+         "repo" : null,
+         "ignore" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "do_not_contanct" : false,
+         "email" : null
+      },
+      {
+         "ignore" : false,
+         "repo" : null,
+         "active" : true,
+         "primary_maintainer" : "DWHEELER",
+         "dist" : "PGXN-API",
+         "main_module" : "PGXN::API",
+         "email" : null,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/"
+      },
+      {
+         "metacpan" : "https://metacpan.org/pod/",
+         "do_not_contanct" : false,
+         "email" : null,
+         "main_module" : "Perl::Achievements",
+         "dist" : "Perl-Achievements",
+         "primary_maintainer" : "YANICK",
+         "active" : true,
+         "ignore" : false,
+         "repo" : null
+      },
+      {
+         "metacpan" : "https://metacpan.org/pod/",
+         "do_not_contanct" : false,
+         "email" : null,
+         "primary_maintainer" : "JMAC",
+         "dist" : "Plerd",
+         "main_module" : "Plerd",
+         "ignore" : false,
+         "repo" : null,
+         "active" : true
+      },
+      {
+         "email" : null,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "repo" : null,
+         "ignore" : false,
+         "active" : true,
+         "dist" : "Rubric-Entry-Formatter-Markdown",
+         "primary_maintainer" : "RJBS",
+         "main_module" : "Rubric::Entry::Formatter::Markdown"
+      },
+      {
+         "repo" : null,
+         "ignore" : false,
+         "active" : true,
+         "dist" : "Task-BeLike-MELO",
+         "primary_maintainer" : "MELO",
+         "main_module" : "Task::BeLike::MELO",
+         "email" : null,
+         "metacpan" : "https://metacpan.org/pod/",
+         "do_not_contanct" : false
+      },
+      {
+         "email" : null,
+         "metacpan" : "https://metacpan.org/pod/",
+         "do_not_contanct" : false,
+         "active" : true,
+         "repo" : null,
+         "ignore" : false,
+         "main_module" : "Task::BeLike::SARTAK",
+         "dist" : "Task-BeLike-SARTAK",
+         "primary_maintainer" : "SARTAK"
+      },
+      {
+         "main_module" : "Template::Plugin::MultiMarkdown",
+         "primary_maintainer" : "BARBIE",
+         "dist" : "Template-Plugin-MultiMarkdown",
+         "active" : true,
+         "ignore" : false,
+         "repo" : null,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "email" : null
+      },
+      {
+         "email" : null,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "active" : true,
+         "repo" : null,
+         "ignore" : false,
+         "main_module" : "Text::MultiMarkdown::ApacheHandler",
+         "dist" : "Text-MultiMarkdown-ApacheHandler",
+         "primary_maintainer" : "KULP"
+      },
+      {
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "email" : null,
+         "main_module" : "Text::Xslate::Bridge::MultiMarkdown",
+         "dist" : "Text-Xslate-Bridge-MultiMarkdown",
+         "primary_maintainer" : "WWOLF",
+         "active" : true,
+         "ignore" : false,
+         "repo" : null
+      },
+      {
+         "email" : null,
+         "do_not_contanct" : false,
+         "metacpan" : "https://metacpan.org/pod/",
+         "active" : true,
+         "repo" : null,
+         "ignore" : false,
+         "main_module" : "Yukki",
+         "primary_maintainer" : "HANENKAMP",
+         "dist" : "Yukki"
+      }
+   ]
+}
