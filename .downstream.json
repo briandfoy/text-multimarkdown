@@ -1,0 +1,77 @@
+{
+"meta": {
+
+},
+
+"downstream": [
+	{
+	"active": true,
+	"main-module": "Text::Markup",
+	"metacpan": "https://metacpan.org/pod/Text::Markup",
+	"repo": "https://github.com/theory/text-markup/",
+	"do-not-contact": true,
+	"email": null,
+	"primary-maintainer": null
+	},
+
+	{
+	"active": false,
+	"main-module": "MojoMojo",
+	"metacpan": "https://metacpan.org/pod/MojoMojo",
+	"repo": "https://github.com/mojomojo/mojomojo",
+	"do-not-contact": true
+	"email": null
+	"primary-maintainer": null
+	},
+
+	{
+	"active": true,
+	"main-module": "Email::Simple::Markdown",
+	"metacpan": "https://metacpan.org/pod/Email::Simple::Markdown",
+	"repo": "https://github.com/yanick/Email-Simple-Markdown",
+	"do-not-contact": true
+	"email": null
+	"primary-maintainer": null
+	},
+
+	{
+	"active": true,
+	"main-module": "App::unbelievable",
+	"metacpan": "https://metacpan.org/pod/App::unbelievable",
+	"repo": "https://github.com/cxw42/unbelievable",
+	"do-not-contact": true
+	"email": null
+	"primary-maintainer": null
+	},
+
+	{
+	"active": true,
+	"main-module": "HiD",
+	"metacpan": "https://metacpan.org/pod/HiD",
+	"repo": "https://github.com/genehack/HiD",
+	"do-not-contact": true
+	"email": null
+	"primary-maintainer": null
+	},
+
+	{
+	"active": true,
+	"main-module": "Template::Caribou",
+	"metacpan": "https://metacpan.org/pod/Template::Caribou",
+	"repo": "https://github.com/yanick/Template-Caribou",
+	"do-not-contact": true
+	"email": null
+	"primary-maintainer": null
+	},
+
+	{
+	"active": true,
+	"main-module": "",
+	"metacpan": "",
+	"repo": "",
+	"do-not-contact": true
+	"email": null
+	"primary-maintainer": null
+	},
+
+]}
