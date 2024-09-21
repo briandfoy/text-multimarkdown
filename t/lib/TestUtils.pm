@@ -23,8 +23,8 @@ BEGIN {
 				pass($testname);
 				return 1;
 			}
-			print STDERR "=" x 80 . "\nTest <$testname> DIFFERENCES: + = processed version from .text, - = template from .html\n";
-			print STDERR encode('utf8', Text::Diff::diff(\$expected => \$got, { STYLE => "Unified" }) . "\n");
+			warn "=" x 80 . "\nTest <$testname> DIFFERENCES: + = processed version from .text, - = template from .html\n";
+			warn encode('utf8', Text::Diff::diff(\$expected => \$got, { STYLE => "Unified" }) . "\n");
 			fail($testname);
 			return 0;
 		};
