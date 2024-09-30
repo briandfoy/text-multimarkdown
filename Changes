@@ -1,5 +1,8 @@
 Revision history for Perl module Text::MultiMarkdown
 
+1.002_03 2024-09-30T01:04:59Z
+	* a final trial version perhaps
+
 1.002_02 2024-09-21T17:48:52Z
 	* transliterate_ids changes to transliterated_ids
 	* fix some warnings in the tests
