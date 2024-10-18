@@ -1,5 +1,10 @@
 Revision history for Perl module Text::MultiMarkdown
 
+1.002_04 2024-10-18T20:08:11Z
+	* hoping this is the final test release
+	* recovered from the $TODO tests, where the $TODO has to live in the
+	current package.
+
 1.002_03 2024-09-30T01:04:59Z
 	* a final trial version perhaps
 
