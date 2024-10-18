@@ -1,9 +1,5 @@
-package TestUtils;
 use warnings;
 use strict;
-
-use Exporter qw(import);
-our @EXPORT = qw(difftest get_files run_tests slurp tidy);
 
 use Encode;
 use File::Spec::Functions qw(catfile);
