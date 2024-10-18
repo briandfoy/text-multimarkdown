@@ -11,17 +11,28 @@ my @files = get_files($docsdir);
 
 tidy();
 
-use_ok('Text::MultiMarkdown');
+subtest sanity => sub {
+	use_ok('Text::MultiMarkdown');
+	};
 
-my $m = Text::MultiMarkdown->new(
-    use_metadata => 0,
-    heading_ids  => 0, # Remove MultiMarkdown behavior change in <hX> tags.
-    img_ids      => 0, # Remove MultiMarkdown behavior change in <img> tags.
-);
 
-{
-    local $TODO = 'Ruby (maruku) tests, do not pass, but mostly due to spacing - pick them all up and go through them..';
-    run_tests($m, $docsdir, @files);
-};
+subtest files => sub {
+	local $TODO = 'Ruby (maruku) tests, do not pass, but mostly due to spacing - pick them all up and go through them.';
+
+	my $m = Text::MultiMarkdown->new(
+		use_metadata => 0,
+		heading_ids  => 0, # Remove MultiMarkdown behavior change in <hX> tags.
+		img_ids      => 0, # Remove MultiMarkdown behavior change in <img> tags.
+		);
+
+	foreach my $file ( @files ) {
+		subtest $file => sub {
+			TODO: {
+				local $TODO = 'Not many of the python markdown tests pass, but they ran off and did their own thing';
+				run_tests( $m, $docsdir, $file );
+				}
+			};
+		}
+	};
 
 done_testing();
