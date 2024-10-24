@@ -1,5 +1,12 @@
 Revision history for Perl module Text::MultiMarkdown
 
+1.003 2024-10-24T17:15:43Z
+	* anchor names can contain unicode, or, they can transliterate to 
+	ASCII. GitHub #6.
+	* many tests remain broken under HTML::Tidy, but this is not new.
+	Note that as the world moves on (and this module doesn't), the 
+	HTML that external things generate may have evolved.
+
 1.002_04 2024-10-18T20:08:11Z
 	* hoping this is the final test release
 	* recovered from the $TODO tests, where the $TODO has to live in the
