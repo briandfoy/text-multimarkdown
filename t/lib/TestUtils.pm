@@ -3,7 +3,7 @@ use strict;
 
 use Encode;
 use File::Spec::Functions qw(catfile);
-use List::MoreUtils qw(uniq);
+use List::Util qw(uniq);
 use Test::More;
 
 our $TIDY = eval { require HTML::Tidy };
