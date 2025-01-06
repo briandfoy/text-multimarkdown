@@ -1,5 +1,9 @@
 Revision history for Perl module Text::MultiMarkdown
 
+1.004 2025-01-06T06:21:01Z
+	* use List::Util instead of List::MoreUtil, since the former is core.
+	This was noted by Graham Ollis.
+
 1.003 2024-10-24T17:15:43Z
 	* anchor names can contain unicode, or, they can transliterate to 
 	ASCII. GitHub #6.
