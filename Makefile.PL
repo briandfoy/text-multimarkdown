@@ -64,7 +64,7 @@ my %WriteMakefile = (
 
 	'TEST_REQUIRES' => {
 		'FindBin'         => '0',
-		'List::MoreUtils' => '0',
+		'List::Util'      => '1.45',
 		'Test::Exception' => '0',
 		'Test::More'      => '0.42',
 		},
