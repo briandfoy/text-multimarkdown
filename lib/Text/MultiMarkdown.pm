@@ -14,7 +14,7 @@ use HTML::Entities qw(encode_entities);
 use Scalar::Util   qw(blessed);
 use Unicode::Normalize ();
 
-our $VERSION   = '1.004';
+our $VERSION   = '1.005';
 our @EXPORT_OK = qw(markdown multimarkdown_to_html);
 
 =encoding utf8
